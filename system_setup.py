@@ -16,13 +16,13 @@ cost_setup = {
 
                 "feed_cost_ton_mim": 250,
                 "feed_cost_ton_mp": 300,
-                "feed_cost_ton_max": 350,
+                "feed_cost_ton_max": 300,
                 "feed_cost_ton_distr": 'T',
 
-                "additiv_cost_ton_mim": 250,
-                "additiv_cost_ton_mp": 300,
-                "additiv_cost_ton_max": 350,
-                "additiv_cost_ton_distr": 'T',
+                "additive_cost_ton_mim": 250,
+                "additive_cost_ton_mp": 300,
+                "additive_cost_ton_max": 350,
+                "additive_cost_ton_distr": 'T',
 
 # monthly cost should be converted by layer cost / week
                 "vet_cost_month_mim": 250,
@@ -36,6 +36,18 @@ cost_setup = {
                 "other_cost_month_distr": 'T',
 
              }
+
+egg_market = {
+                  'white_std_egg_unit_price_min' : .3,
+                  'white_std_egg_unit_price_mp' : .35,
+                  'white_std_egg_unit_price_max' : .38,
+                  'white_std_egg_unit_weight_g' : 65,
+
+                  'brown_std_egg_unit_price_min' : .31,
+                  'brown_std_egg_unit_price_mp' : .36,
+                  'brown_std_egg_unit_price_max' : .39,
+                  'brown_std_egg_unit_weight_g' : 65,
+}
 
 
 adj_to_performance_data = {
@@ -60,6 +72,12 @@ error_msn =  {
               'wrong_selection' : 'wrong selection....',
               'abort_user' : '*** Aborted by user *** ',
               'abort_app' : '*** Aborted Process *** ',
+              'input_err_feed_cost' : 'Input Error at Feed Cost / ton ',
+              'input_err_pullet_cost' : 'Input Error at pullet Cost / ton ',
+              'input_err_additive_cost' : 'Input Error at additiveCost / ton ',
+              'input_err_vet_cost' : 'Input Error at vet Cost ',
+              'input_err_wegg_price' : 'Input Error at egg price ',
+
               }
 
 other_msn =  {
