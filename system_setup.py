@@ -6,6 +6,9 @@
 # U : uniform
 import os
 
+farm_setup = {
+        'number_of_layers': 1000,
+             }
 
 # cost user input parameters
 cost_setup = {
@@ -16,12 +19,12 @@ cost_setup = {
 
                 "feed_cost_ton_mim": 250,
                 "feed_cost_ton_mp": 300,
-                "feed_cost_ton_max": 300,
-                "feed_cost_ton_distr": 'T',
+                "feed_cost_ton_max": 303,
+                "feed_cost_ton_distr": 'U',
 
-                "additive_cost_ton_mim": 250,
-                "additive_cost_ton_mp": 300,
-                "additive_cost_ton_max": 350,
+                "additive_cost_ton_mim": 2,
+                "additive_cost_ton_mp": 3,
+                "additive_cost_ton_max": 4,
                 "additive_cost_ton_distr": 'T',
 
 # monthly cost should be converted by layer cost / week
@@ -38,15 +41,28 @@ cost_setup = {
              }
 
 egg_market = {
-                  'white_std_egg_unit_price_min' : .3,
-                  'white_std_egg_unit_price_mp' : .35,
-                  'white_std_egg_unit_price_max' : .38,
-                  'white_std_egg_unit_weight_g' : 65,
+                  'white_std_egg_price_min' : 1,
+                  'white_std_egg_price_mp' : 1.1,
+                  'white_std_egg_price_max' : 1.2,
+                  'white_std_egg_price_distr' : 'T',
 
-                  'brown_std_egg_unit_price_min' : .31,
-                  'brown_std_egg_unit_price_mp' : .36,
-                  'brown_std_egg_unit_price_max' : .39,
-                  'brown_std_egg_unit_weight_g' : 65,
+                  'white_std_egg_weight_g' : 65,
+
+                  'brown_std_egg_price_min' : 1,
+                  'brown_std_egg_price_mp' : 1.1,
+                  'brown_std_egg_price_max' : 1.2,
+                  'brown_std_egg_price_distr' : 'T',
+
+                  'brown_std_egg_weight_g' : 65,
+
+                  'sale_unit' : 12, # price refer to X eggs
+
+                  'other_earning_month_min' : 100, # other potentialy earnings (feces, etc)
+                  'other_earning_month_mp' : 101,
+                  'other_earning_month_max' : 102,
+                  'other_earning_month_distr' : 'T',
+
+
 }
 
 
@@ -76,7 +92,9 @@ error_msn =  {
               'input_err_pullet_cost' : 'Input Error at pullet Cost / ton ',
               'input_err_additive_cost' : 'Input Error at additiveCost / ton ',
               'input_err_vet_cost' : 'Input Error at vet Cost ',
-              'input_err_wegg_price' : 'Input Error at egg price ',
+              'input_err_white_egg_price' : 'Input Error at white egg price ',
+              'input_err_brown_egg_price' : 'Input Error at brown egg price ',
+              'input_err_other_earning' : 'Input Error at other earning ',
 
               }
 
@@ -86,5 +104,5 @@ other_msn =  {
 
               }
 
-
+n_repetitions = 10
 

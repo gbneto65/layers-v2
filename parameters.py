@@ -15,7 +15,7 @@ print(app_setup_parameters['working_folder'])
 
 # find a CSV file and take its name - it will be use to open the DF later
 csv_file = glob.glob('*.csv')
-print(csv_file)
+#print(csv_file)
 
 if len(csv_file) == 0 : # CSV file not found in the working dir
     sound_error()

@@ -18,3 +18,4 @@ def exit_app(msn):
 	print('\n' + msn + '\n')
 	print('\n ' + error_msn['abort_app'])
 	exit()
+
