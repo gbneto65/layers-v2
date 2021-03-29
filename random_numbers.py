@@ -35,10 +35,19 @@ class CreateRndNumbers:
                     self.min, self.max, n_repetitions
                     )
             return rd
+
+        elif self.distr.upper() == 'F':
+            # fixed value is actually a triangular distribution with a very low variation
+            rd = generate_rnd_numbers_triangular \
+                    (
+                    self.mp * .9999999999, self.mp, self.mp * 1.000000001, n_repetitions
+                )
+
+            return rd
+
         else:
             exit_app('error')
 
-            return a
 
 
 

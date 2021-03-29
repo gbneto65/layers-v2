@@ -2,7 +2,7 @@
 # module to store constants and parameters inputed by users
 # Distributions letters
 # T : Triangular
-# F : fixed value (consider the mp value)
+# F : fixed value (consider the mp value). However, the min and max should be imputed (not considered)
 # U : uniform
 import os
 
@@ -11,16 +11,17 @@ farm_setup = {
              }
 
 # cost user input parameters
+# implemented distributions : U = Uniform, T = Triangular, F = Fixed value
 cost_setup = {
                 "pullet_cost_mim" : 1,
                 "pullet_cost_mp" : 2,
                 "pullet_cost_max" : 3,
-                "pullet_cost_distr": 'T',
+                "pullet_cost_distr": 'F',
 
                 "feed_cost_ton_mim": 250,
                 "feed_cost_ton_mp": 300,
-                "feed_cost_ton_max": 303,
-                "feed_cost_ton_distr": 'U',
+                "feed_cost_ton_max": 350,
+                "feed_cost_ton_distr": 'f',
 
                 "additive_cost_ton_mim": 2,
                 "additive_cost_ton_mp": 3,
@@ -44,14 +45,14 @@ egg_market = {
                   'white_std_egg_price_min' : 1,
                   'white_std_egg_price_mp' : 1.1,
                   'white_std_egg_price_max' : 1.2,
-                  'white_std_egg_price_distr' : 'T',
+                  'white_std_egg_price_distr' : 'F',
 
                   'white_std_egg_weight_g' : 65,
 
                   'brown_std_egg_price_min' : 1,
                   'brown_std_egg_price_mp' : 1.1,
                   'brown_std_egg_price_max' : 1.2,
-                  'brown_std_egg_price_distr' : 'T',
+                  'brown_std_egg_price_distr' : 'F',
 
                   'brown_std_egg_weight_g' : 65,
 
@@ -67,12 +68,14 @@ egg_market = {
 
 
 adj_to_performance_data = {
-# the values should be in percentual (ex: 0.01 = 1%, -.1 = 10%)
+# the values should be in percentual (ex: 0.01 = 1%, -.1 = -10%)
 
-                        'adj_daily_feed_intake_by_hen' : 0,
-                        'adj_weekly_cum_egg_by_hen' : 0,
-                        'adj_weekly_cum_mort' : 0,
-                        'adj_egg_weight' : 0,
+                        'adj_cum_feed_intake_by_hen' : 0,
+                        # todo not implemented adjust below
+                        # 'adj_cum_egg_by_hen' : 0,
+                        # 'adj_cum_mort' : 0,
+                        # 'adj_egg_weight' : 0,
+                        # 'adj_egg_prod' : 0,
 
                           }
 app_setup_parameters = {
@@ -104,5 +107,5 @@ other_msn =  {
 
               }
 
-n_repetitions = 10
+n_repetitions = 5
 

@@ -8,6 +8,7 @@ import os
 import numpy as np
 
 from convert_month_to_layer_week import InputConvertion
+from create_array_parameters import CreateArraysFromParameters
 from extract_df_info import ExtractDfInfo, df_indexing
 from parameters import csv_file_name
 from Defs import sound_error, exit_app
@@ -23,6 +24,7 @@ from verify_input import VerifyUserInput, user_type_error
 user_type_error()
 
 # call a class to convert monthly costs to weekly costs / bird
+# it returns a list with [min,mp,max,distr)
 
 feed = InputConvertion('feed')
 feed_cost_gr = feed.convert_to_list()
@@ -42,68 +44,72 @@ white_egg_price_per_kg = wegg.convert_to_list()
 begg = InputConvertion('begg')
 brown_egg_price_per_kg = begg.convert_to_list()
 
+# generate rnd numbers for monte carlo simulation - random_numbers.py
 
+feed_cost_gr_rnd = CreateRndNumbers(
+    feed_cost_gr[0],
+    feed_cost_gr[1],
+    feed_cost_gr[2],
+    feed_cost_gr[3],
+)
+rnd_feed_cost_gr = feed_cost_gr_rnd.rnd_numbers()
 
+additive_rnd = CreateRndNumbers(
+    additive_cost_gr[0],
+    additive_cost_gr[1],
+    additive_cost_gr[2],
+    additive_cost_gr[3],
+)
+rnd_additive_cost_gr = additive_rnd.rnd_numbers()
 
+vet_rnd = CreateRndNumbers(
+    vet_cost_per_bird[0],
+    vet_cost_per_bird[1],
+    vet_cost_per_bird[2],
+    vet_cost_per_bird[3],
+)
+rnd_vet_cost_per_bird = vet_rnd.rnd_numbers()
 
+other_cost = CreateRndNumbers(
+    other_cost_per_bird[0],
+    other_cost_per_bird[1],
+    other_cost_per_bird[2],
+    other_cost_per_bird[3],
+)
+rnd_other_cost_per_bird = other_cost.rnd_numbers()
 
+wegg = CreateRndNumbers(
+    white_egg_price_per_kg[0],
+    white_egg_price_per_kg[1],
+    white_egg_price_per_kg[2],
+    white_egg_price_per_kg[3],
+)
+rnd_white_egg_price_per_kg = wegg.rnd_numbers()
 
+begg = CreateRndNumbers(
+    brown_egg_price_per_kg[0],
+    brown_egg_price_per_kg[1],
+    brown_egg_price_per_kg[2],
+    brown_egg_price_per_kg[3],
+)
+rnd_brown_egg_price_per_kg = begg.rnd_numbers()
 
+pullet_cost = CreateRndNumbers \
+        (
+        cost_setup["pullet_cost_mim"],
+        cost_setup["pullet_cost_mp"],
+        cost_setup["pullet_cost_max"],
+        cost_setup["pullet_cost_distr"],
+    )
+rnd_pullet_cost = pullet_cost.rnd_numbers()
 
-pullet_cost = CreateRndNumbers\
-            (
-            cost_setup["pullet_cost_mim"],
-            cost_setup["pullet_cost_mp"],
-            cost_setup["pullet_cost_max"],
-            cost_setup["pullet_cost_distr"],
-            )
-array_pullet_cost = pullet_cost.rnd_numbers()
-
-
-feed_cost = CreateRndNumbers\
-            (
-            cost_setup["feed_cost_ton_mim"],
-            cost_setup["feed_cost_ton_mp"],
-            cost_setup["feed_cost_ton_max"],
-            cost_setup["feed_cost_ton_distr"],
-            )
-array_feed_cost = feed_cost.rnd_numbers()
-
-additive_cost = CreateRndNumbers\
-            (
-            cost_setup["additive_cost_ton_mim"],
-            cost_setup["additive_cost_ton_mp"],
-            cost_setup["additive_cost_ton_max"],
-            cost_setup["additive_cost_ton_distr"],
-            )
-array_additive_cost = additive_cost.rnd_numbers()
-
-vet_cost = CreateRndNumbers\
-            (
-            cost_setup["vet_cost_month_mim"],
-            cost_setup["vet_cost_month_mp"],
-            cost_setup["vet_cost_month_max"],
-            cost_setup["vet_cost_month_distr"],
-
-            )
-array_vet_cost = vet_cost.rnd_numbers()
-other_cost = CreateRndNumbers\
-            (
-            cost_setup["other_cost_month_mim"],
-            cost_setup["other_cost_month_mp"],
-            cost_setup["other_cost_month_max"],
-            cost_setup["other_cost_month_distr"],
-            )
-array_other_cost = other_cost.rnd_numbers()
-
-
-
-
-#print(array_feed_cost)
-
-
-
-
+#
+print(rnd_feed_cost_gr)
+# print(rnd_additive_cost_gr)
+# print(rnd_vet_cost_per_bird)
+# print(rnd_other_cost_per_bird)
+# print(rnd_brown_egg_price_per_kg)
+# print(rnd_pullet_cost)
 
 
 # read CSV file
@@ -124,9 +130,8 @@ print('\n' + other_msn['user_genetic_options_msn'])
 for i in range(len(genetic_options)):
     print(f'Option [{i}] = {genetic_options[i]}')
 
-# user input
+# user input about layer breed (genetics)
 select = int(input(' ? (type 10 to exit)'))
-
 
 if select == 10:
     exit_app(error_msn['abort_user'])
@@ -146,34 +151,40 @@ total_prod_week = df_info.get_total_production_week()
 first_prod_week = df_info.get_first_production_week()
 last_prod_week = df_info.get_last_production_week()
 
-print(total_prod_week)
-print(first_prod_week)
-print(last_prod_week)
-#print(selected_df.head)
+print(f'\nTotal weeks of production: {total_prod_week}')
+print(f'First weeks of production: {first_prod_week}')
+print(f'Last weeks of production: {last_prod_week}\n')
+# print(selected_df.head)
+
+c = np.zeros([n_repetitions], dtype=float)
+a = CreateArraysFromParameters \
+        (
+        selected_df,
+        first_prod_week,
+        last_prod_week,
+        'cum_feed_hen',
+        rnd_feed_cost_gr,
+        )
+array_feed_cost_week_hen = a.create_array_from_all_prod_weeks()
+
+print(array_feed_cost_week_hen)
 
 
+c = np.zeros([n_repetitions], dtype=float)
+a = CreateArraysFromParameters \
+        (
+        selected_df,
+        first_prod_week,
+        last_prod_week,
+        'cum_feed_hen',
+        rnd_additive_cost_gr,
+        )
+array_additive_cost_week_hen = a.create_array_from_all_prod_weeks()
 
+print(array_additive_cost_week_hen)
 
-
-
-array = selected_df[['feed_intake_max', 'feed_intake_max']].to_numpy()
-
-a = np.mean(array, axis=1).tolist
-b = np.transpose(a)
-c = np.hstack(array,b)
-
-print(c)
-
-#print(array)
-
-# # costs parameters
-# for i in range(total_prod_week):
-#     a =selected_df.loc[[i + first_prod_week]]
-#     b = a['feed_intake_min']
-#     c = a['feed_intake_max']
-#     d = (c+b)/2
-#     print(f'{b}  {c}  {d}')
-#
+# todo pullet  matrix, other cost, earnings
+# todo adj still not considered
 
 
 

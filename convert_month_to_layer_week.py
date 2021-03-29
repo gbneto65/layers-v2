@@ -16,8 +16,11 @@ class InputConvertion:
         if self.parameter.lower() == 'feed':
             feed = [None] * 4
             feed[0] = cost_setup["feed_cost_ton_mim"] / 1000000
+
             feed[1] = cost_setup["feed_cost_ton_mp"] / 1000000
+
             feed[2] = cost_setup["feed_cost_ton_max"] / 1000000
+
             feed[3] = cost_setup["feed_cost_ton_distr"]
             return feed
 
@@ -67,7 +70,7 @@ class InputConvertion:
 
             wegg[1] = egg_market['white_std_egg_price_mp'] \
                        / egg_market['sale_unit'] / egg_kg
- \
+
             wegg[2] = egg_market['white_std_egg_price_max'] \
                        / egg_market['sale_unit'] / egg_kg
 
