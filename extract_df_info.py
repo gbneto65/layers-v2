@@ -20,3 +20,10 @@ class ExtractDfInfo:
     def get_last_production_week(self):
         return self.df.last_valid_index()
 
+    def get_egg_color(self):
+        color = self.df.iloc[30]['hen_color'] # consider index 30 for the color
+        return color.lower()
+
+
+
+

@@ -98,6 +98,7 @@ error_msn =  {
               'input_err_white_egg_price' : 'Input Error at white egg price ',
               'input_err_brown_egg_price' : 'Input Error at brown egg price ',
               'input_err_other_earning' : 'Input Error at other earning ',
+              'err_egg_sales' : 'Error found when trying calculate the earnings from sales - Verify egg color at DF (should be only white or brown) ',
 
               }
 
@@ -107,5 +108,6 @@ other_msn =  {
 
               }
 
-n_repetitions = 5
+n_repetitions = 1000
+
 

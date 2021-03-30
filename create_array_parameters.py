@@ -1,4 +1,6 @@
 # create np arrays from random parameters
+# generate a numpy array with rnd values with n_repetitions (define by user) and n production weeks (usually round 100)
+
 from system_setup import n_repetitions
 import numpy as np
 
