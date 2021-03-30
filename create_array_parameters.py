@@ -25,3 +25,23 @@ class CreateArraysFromParameters:
         c = np.delete(c, 0, 0) # delete the first row (zeros only)
 
         return c
+
+class CreateArraysFromParametersNotIncludedInDf:
+    def __init__(self,df, first_row, last_row, rnd_parameter_name):
+
+        self.df = df
+        self.first_row = first_row
+        self.last_row = last_row
+        self.rnd_parameter_name = rnd_parameter_name  # rnd_...
+
+    def create_array_from_prod_not_df(self):
+
+        c = np.zeros([n_repetitions], dtype=float)
+
+        for i in range (1 + self.last_row - self.first_row):
+            b = self.rnd_parameter_name
+            c = np.row_stack((c, b))
+
+        c = np.delete(c, 0, 0)
+
+        return c

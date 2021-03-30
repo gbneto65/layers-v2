@@ -16,7 +16,7 @@ cost_setup = {
                 "pullet_cost_mim" : 1,
                 "pullet_cost_mp" : 2,
                 "pullet_cost_max" : 3,
-                "pullet_cost_distr": 'F',
+                "pullet_cost_distr": 'T',
 
                 "feed_cost_ton_mim": 250,
                 "feed_cost_ton_mp": 300,

@@ -1,14 +1,13 @@
 # layer project V2
 # main module
-# todo improvements on verification of the user inputs
-# todo
+
 
 import pandas as pd
 import os
 import numpy as np
 
 from convert_month_to_layer_week import InputConvertion
-from create_array_parameters import CreateArraysFromParameters
+from create_array_parameters import CreateArraysFromParameters, CreateArraysFromParametersNotIncludedInDf
 from extract_df_info import ExtractDfInfo, df_indexing
 from parameters import csv_file_name
 from Defs import sound_error, exit_app
@@ -104,12 +103,12 @@ pullet_cost = CreateRndNumbers \
 rnd_pullet_cost = pullet_cost.rnd_numbers()
 
 #
-print(rnd_feed_cost_gr)
+#print(rnd_feed_cost_gr)
 # print(rnd_additive_cost_gr)
 # print(rnd_vet_cost_per_bird)
 # print(rnd_other_cost_per_bird)
 # print(rnd_brown_egg_price_per_kg)
-# print(rnd_pullet_cost)
+print(rnd_pullet_cost)
 
 
 # read CSV file
@@ -156,6 +155,9 @@ print(f'First weeks of production: {first_prod_week}')
 print(f'Last weeks of production: {last_prod_week}\n')
 # print(selected_df.head)
 
+
+
+# cum_feed_hen_week
 c = np.zeros([n_repetitions], dtype=float)
 a = CreateArraysFromParameters \
         (
@@ -167,10 +169,7 @@ a = CreateArraysFromParameters \
         )
 array_feed_cost_week_hen = a.create_array_from_all_prod_weeks()
 
-print(array_feed_cost_week_hen)
-
-
-c = np.zeros([n_repetitions], dtype=float)
+# cum_additive_hen_week
 a = CreateArraysFromParameters \
         (
         selected_df,
@@ -181,9 +180,68 @@ a = CreateArraysFromParameters \
         )
 array_additive_cost_week_hen = a.create_array_from_all_prod_weeks()
 
-print(array_additive_cost_week_hen)
+# rnd_pullet_cost
+a = CreateArraysFromParametersNotIncludedInDf\
+        (
+        selected_df,
+        first_prod_week,
+        last_prod_week,
+        rnd_pullet_cost,
+        )
 
-# todo pullet  matrix, other cost, earnings
+array_pullet_cost = a.create_array_from_prod_not_df()
+
+
+# rnd_vet_cost_per_bird
+a = CreateArraysFromParametersNotIncludedInDf\
+        (
+        selected_df,
+        first_prod_week,
+        last_prod_week,
+        rnd_vet_cost_per_bird,
+        )
+
+array_rnd_vet_cost_per_bird = a.create_array_from_prod_not_df()
+
+# rnd_vet_cost_per_bird
+a = CreateArraysFromParametersNotIncludedInDf\
+        (
+        selected_df,
+        first_prod_week,
+        last_prod_week,
+        rnd_vet_cost_per_bird,
+        )
+
+array_rnd_vet_cost_per_bird = a.create_array_from_prod_not_df()
+
+
+# rnd_other_cost_per_bird
+a = CreateArraysFromParametersNotIncludedInDf\
+        (
+        selected_df,
+        first_prod_week,
+        last_prod_week,
+        rnd_other_cost_per_bird,
+        )
+
+array_rnd_other_cost_per_bird = a.create_array_from_prod_not_df()
+
+print(len(array_rnd_other_cost_per_bird))
+print(array_rnd_other_cost_per_bird)
+
+
+
+# for i in range (1 + last_prod_week - first_prod_week):
+#     b = rnd_pullet_cost
+#     c = np.row_stack((c, b))
+#
+# c = np.delete(c, 0, 0)
+# print(len(c))
+# print(c)
+
+#print(array_pullet_cost_week_hen)
+
+#
 # todo adj still not considered
 
 
