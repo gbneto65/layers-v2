@@ -6,10 +6,14 @@
 # U : uniform
 import os
 
+case_identification_setup = {
+        'id_name' : 'Sr Oscar',
+        'Country' : ' Brazil',
+
+        }
 farm_setup = {
         'number_of_layers': 1000,
              }
-
 # cost user input parameters
 # implemented distributions : U = Uniform, T = Triangular, F = Fixed value
 cost_setup = {
@@ -110,4 +114,22 @@ other_msn =  {
 
 n_repetitions = 1000
 
+
+table_user_input_cost_fields = [' ',
+                           'Pullet Cost',
+                           'Feed/ton',
+                           'Additive/ton feed',
+                           'Vet costs/month',
+                           'Other Cost/month',
+
+                           ]
+
+table_user_input_earn_fields = [' ',
+                           'Egg price (White)',
+                           'Egg weight (White)',
+                           'Egg price (brown)',
+                           'Egg weight (brown)',
+                                'Sale unit',
+                           'Other earning / month',
+                           ]
 

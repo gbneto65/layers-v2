@@ -11,13 +11,16 @@ from convert_month_to_layer_week import InputConvertion
 from create_array_parameters import CreateArraysFromParameters, CreateArraysFromParametersNotIncludedInDf
 from extract_df_info import ExtractDfInfo, df_indexing
 from parameters import csv_file_name
-from Defs import sound_error, exit_app
+from Defs import sound_error, exit_app, create_intro_table, create_user_input_earn_table, create_user_input_cost_table, \
+    display_intro_and_user_inputs
 from random_numbers import CreateRndNumbers
-from system_setup import error_msn, other_msn, cost_setup, n_repetitions
+from system_setup import error_msn, other_msn, cost_setup, n_repetitions, table_user_input_cost_fields
 from user_genetic_selection import UserGeneticSelection
-
 # verify input data
 from verify_input import VerifyUserInput, user_type_error
+
+# show intro on screen
+display_intro_and_user_inputs()
 
 # verify input errors from 'system_setup.py'
 user_type_error()
@@ -26,10 +29,10 @@ user_type_error()
 # it returns a list with [min,mp,max,distr)
 
 feed = InputConvertion('feed')
-feed_cost_gr = feed.convert_to_list()
+feed_cost_gr_of_feed = feed.convert_to_list()
 
 additive = InputConvertion('additive')
-additive_cost_gr = additive.convert_to_list()
+additive_cost_gr_of_feed = additive.convert_to_list()
 
 vet = InputConvertion('vet')
 vet_cost_per_bird = vet.convert_to_list()
@@ -45,29 +48,36 @@ brown_egg_price_per_kg = begg.convert_to_list()
 
 
 # earnings
-
 other_earn = InputConvertion('other_earn')
 other_earn_per_bird = other_earn.convert_to_list()
+
+# display a table with conversion results
+
+
+
+# todo - display converted data
+
+
 
 
 # generate rnd numbers for monte carlo simulation - random_numbers.py
 # feed cost
-feed_cost_gr_rnd = CreateRndNumbers(
-    feed_cost_gr[0],
-    feed_cost_gr[1],
-    feed_cost_gr[2],
-    feed_cost_gr[3],
+feed_cost_gr_of_feed_rnd = CreateRndNumbers(
+    feed_cost_gr_of_feed[0],
+    feed_cost_gr_of_feed[1],
+    feed_cost_gr_of_feed[2],
+    feed_cost_gr_of_feed[3],
 )
-rnd_feed_cost_gr = feed_cost_gr_rnd.rnd_numbers()
+rnd_feed_cost_gr_of_feed = feed_cost_gr_of_feed_rnd.rnd_numbers()
 
 # additive cost
 additive_rnd = CreateRndNumbers(
-    additive_cost_gr[0],
-    additive_cost_gr[1],
-    additive_cost_gr[2],
-    additive_cost_gr[3],
+    feed_cost_gr_of_feed[0],
+    feed_cost_gr_of_feed[1],
+    feed_cost_gr_of_feed[2],
+    feed_cost_gr_of_feed[3],
 )
-rnd_additive_cost_gr = additive_rnd.rnd_numbers()
+rnd_feed_cost_gr_of_feed = additive_rnd.rnd_numbers()
 
 # vet cost / therapy cost
 vet_rnd = CreateRndNumbers(
@@ -127,8 +137,8 @@ rnd_other_earn_per_bird = other_earn.rnd_numbers()
 
 
 
-#print(rnd_feed_cost_gr)
-# print(rnd_additive_cost_gr)
+#print(rnd_feed_cost_gr_of_feed)
+# print(rnd_feed_cost_gr_of_feed)
 # print(rnd_vet_cost_per_bird)
 # print(rnd_other_cost_per_bird)
 # print(rnd_brown_egg_price_per_kg)
@@ -182,6 +192,10 @@ print(f'First weeks of production: {first_prod_week}')
 print(f'Last weeks of production: {last_prod_week}\n')
 print(f'The eggs color for this genetics is: {hen_egg_color}\n')
 
+# todo - display general info about genetics data
+
+
+
 # print(selected_df.head)
 
 # generate a numpy array with rnd values with n_repetitions (define by user) and n production weeks (usually round 100)
@@ -194,7 +208,7 @@ a = CreateArraysFromParameters \
         first_prod_week,
         last_prod_week,
         'cum_feed_hen',
-        rnd_feed_cost_gr,
+        rnd_feed_cost_gr_of_feed,
         )
 array_feed_cost_week_hen = a.create_array_from_all_prod_weeks()
 
@@ -205,7 +219,7 @@ a = CreateArraysFromParameters \
         first_prod_week,
         last_prod_week,
         'cum_feed_hen',
-        rnd_additive_cost_gr,
+        rnd_feed_cost_gr_of_feed,
         )
 array_additive_cost_week_hen = a.create_array_from_all_prod_weeks()
 
@@ -304,6 +318,7 @@ array_total_earnings = array_rnd_egg_sales_hen_week\
 
 print(array_total_costs)
 print(array_total_earnings)
+
 
 #print(len(array_total_earnings))
 
