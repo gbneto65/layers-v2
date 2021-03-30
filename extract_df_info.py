@@ -1,8 +1,10 @@
 
 def df_indexing(df):
     # index DF by production week
-    df = df.set_index('hen_week_age',
-                          inplace=True)
+    df = df.set_index(
+                      'hen_week_age',
+                      inplace=True,
+                      )
     return df
 
 

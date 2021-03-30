@@ -8,27 +8,29 @@ class InputConvertion:
     # convertion of var inputs
     # output a list [min, mp, max, distr]
 
+
     def __init__(self, parameter):
         self.parameter = parameter
+        self.one_million = 1000000
 
     def convert_to_list(self):
 
         if self.parameter.lower() == 'feed':
             feed = [None] * 4
-            feed[0] = cost_setup["feed_cost_ton_mim"] / 1000000
+            feed[0] = cost_setup["feed_cost_ton_mim"] / self.one_million
 
-            feed[1] = cost_setup["feed_cost_ton_mp"] / 1000000
+            feed[1] = cost_setup["feed_cost_ton_mp"] / self.one_million
 
-            feed[2] = cost_setup["feed_cost_ton_max"] / 1000000
+            feed[2] = cost_setup["feed_cost_ton_max"] / self.one_million
 
             feed[3] = cost_setup["feed_cost_ton_distr"]
             return feed
 
         elif self.parameter.lower() == 'additive':
             additive = [None] * 4
-            additive[0] = cost_setup["additive_cost_ton_mim"] / 1000000
-            additive[1] = cost_setup["additive_cost_ton_mp"] / 1000000
-            additive[2] = cost_setup["additive_cost_ton_max"] / 1000000
+            additive[0] = cost_setup["additive_cost_ton_mim"] / self.one_million
+            additive[1] = cost_setup["additive_cost_ton_mp"] / self.one_million
+            additive[2] = cost_setup["additive_cost_ton_max"] / self.one_million
             additive[3] = cost_setup["additive_cost_ton_distr"]
             return additive
 
