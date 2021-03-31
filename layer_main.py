@@ -10,7 +10,7 @@ from create_array_parameters import CreateArraysFromParameters, CreateArraysFrom
 from extract_df_info import ExtractDfInfo, df_indexing
 from parameters import csv_file_name
 from Defs import exit_app, display_intro_and_user_inputs, display_cost_by_week, display_earn_by_week, \
-    display_delta_earn_cost_by_week, create_intro_table
+    display_delta_earn_cost_by_week, create_intro_table, built_charts
 from random_numbers import CreateRndNumbers
 from system_setup import error_msn, other_msn, cost_setup, n_repetitions, table_user_input_cost_fields
 from user_genetic_selection import UserGeneticSelection
@@ -241,9 +241,6 @@ if __name__ == "__main__":
 
     array_rnd_other_cost_per_bird = a.create_array_from_prod_not_df()
 
-    # print(len(array_rnd_other_cost_per_bird))
-    # print(array_rnd_other_cost_per_bird)
-
     # earnings =========================================
 
     # rnd_other_cost_per_bird
@@ -301,10 +298,14 @@ if __name__ == "__main__":
         array_rnd_egg_sales_hen_week,
         array_rnd_other_earn_per_bird,
     ]
-
+    # built the text tables
     print(display_cost_by_week(first_prod_week, last_prod_week, array_cost))
     print(display_earn_by_week(first_prod_week, last_prod_week, array_earnings))
     print(display_delta_earn_cost_by_week(first_prod_week, last_prod_week, array_cost, array_earnings))
+
+
+
+
 
     array_total_costs = array_feed_cost_week_hen \
                         + array_additive_cost_week_hen \
@@ -317,3 +318,8 @@ if __name__ == "__main__":
                            + array_rnd_other_earn_per_bird
 
     # todo adj still not considered
+
+
+    # todo build charts
+    # build charts
+    built_charts(first_prod_week, last_prod_week, array_cost, array_earnings)

@@ -8,11 +8,11 @@ import os
 
 case_identification_setup = {
         'id_name' : 'Sr Oscar',
-        'Country' : ' Brazil',
+        'Country' : ' Spain',
 
         }
 farm_setup = {
-        'number_of_layers': 1,
+        'number_of_layers': 1000,
              }
 # cost user input parameters
 # implemented distributions : U = Uniform, T = Triangular, F = Fixed value
@@ -23,7 +23,7 @@ cost_setup = {
                 "pullet_cost_distr": 'f',
 
                 "feed_cost_ton_mim": 250,
-                "feed_cost_ton_mp": 300,
+                "feed_cost_ton_mp": 330,
                 "feed_cost_ton_max": 350,
                 "feed_cost_ton_distr": 'f',
 
@@ -53,18 +53,18 @@ egg_market = {
 
                   'white_std_egg_weight_g' : 85,
 
-                  'brown_std_egg_price_min' : .9,
-                  'brown_std_egg_price_mp' : 1,
-                  'brown_std_egg_price_max' : 1.2,
-                  'brown_std_egg_price_distr' : 'F',
+                  'brown_std_egg_price_min' : 83.91,
+                  'brown_std_egg_price_mp' : 96.48,
+                  'brown_std_egg_price_max' : 115.54,
+                  'brown_std_egg_price_distr' : 't',
 
-                  'brown_std_egg_weight_g' : 85,
+                  'brown_std_egg_weight_g' : 65,
 
-                  'sale_unit' : 1, # price refer to X eggs
+                  'sale_unit' : 1538, # price refer to X eggs
 
-                  'other_earning_month_min' : .9, # other potentialy earnings (feces, etc)
-                  'other_earning_month_mp' : 1,
-                  'other_earning_month_max' : 1.2,
+                  'other_earning_month_min' : .001, # other potentialy earnings (feces, etc)
+                  'other_earning_month_mp' : .01,
+                  'other_earning_month_max' : .2,
                   'other_earning_month_distr' : 'f',
 
 

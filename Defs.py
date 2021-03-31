@@ -6,7 +6,7 @@ import numpy as np
 from prettytable import PrettyTable
 from system_setup import error_msn, cost_setup, table_user_input_earn_fields, \
     table_user_input_cost_fields, egg_market, case_identification_setup, farm_setup, system_setup
-
+import pandas as pd
 
 def sound_error():
     sd1 = [1500, 200]  # frequency, time mseg.
@@ -341,3 +341,31 @@ def display_delta_earn_cost_by_week (first_row, last_row, array_cost, array_earn
 
 
     return x
+
+
+def built_charts(first_row, last_row, array_cost, array_earnings):
+    # costs
+    array_feed_cost_week_hen = array_cost[0]
+    array_additive_cost_week_hen = array_cost[1]
+    array_pullet_cost = array_cost[2]
+    array_rnd_vet_cost_per_bird = array_cost[3]
+    array_rnd_other_cost_per_bird = array_cost[4]
+
+    # earnings
+    array_rnd_egg_sales_hen_week = array_earnings[0]
+    array_rnd_other_earn_per_bird = array_earnings[1]
+
+    #feed_cost = np.zeros([1 + last_row - first_row], dtype = float)
+
+    data = np.arange(first_row, 1 + last_row, 1)
+    print(data)
+    c = np.zeros(1, dtype=float)
+
+    for i in range(1 + last_row - first_row):
+
+        b = np.average(array_feed_cost_week_hen[i, :])
+        print(b)
+        c = np.row_stack((c, b))
+
+    d = np.delete(c,0)
+    print(d)
