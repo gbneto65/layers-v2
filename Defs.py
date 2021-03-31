@@ -6,7 +6,7 @@ import numpy as np
 from prettytable import PrettyTable
 from system_setup import error_msn, cost_setup, table_user_input_earn_fields, \
     table_user_input_cost_fields, egg_market, case_identification_setup, farm_setup, system_setup
-import pandas as pd
+import matplotlib.pyplot as plt
 
 def sound_error():
     sd1 = [1500, 200]  # frequency, time mseg.
@@ -357,15 +357,55 @@ def built_charts(first_row, last_row, array_cost, array_earnings):
 
     #feed_cost = np.zeros([1 + last_row - first_row], dtype = float)
 
-    data = np.arange(first_row, 1 + last_row, 1)
-    print(data)
-    c = np.zeros(1, dtype=float)
+    weeks_axis = np.arange(first_row, 1 + last_row, 1)
+
+    # initialization of numpy array
+    z1 = np.zeros(1, dtype=float)
+    z2 = np.zeros(1, dtype=float)
+    z3 = np.zeros(1, dtype=float)
+    z4 = np.zeros(1, dtype=float)
+    z5 = np.zeros(1, dtype=float)
 
     for i in range(1 + last_row - first_row):
+        # feed
+        a = np.average(array_feed_cost_week_hen[i, :])
+        z1 = np.row_stack((z1, a))
 
-        b = np.average(array_feed_cost_week_hen[i, :])
-        print(b)
-        c = np.row_stack((c, b))
+        # additive_cost
+        b = np.average(array_additive_cost_week_hen[i, :])
+        z2 = np.row_stack((z2, b))
 
-    d = np.delete(c,0)
-    print(d)
+        # pullet_cost
+        c = np.average(array_pullet_cost[i, :])
+        z3 = np.row_stack((z3, c))
+
+        # vet_cost
+        d = np.average(array_rnd_vet_cost_per_bird[i, :])
+        z4 = np.row_stack((z4, d))
+
+        # other cost
+        e = np.average(array_rnd_other_cost_per_bird[i, :])
+        z5 = np.row_stack((z5, e))
+
+    # delete first [0] row of the np.array
+    feed = np.delete(z1,0)
+    addi = np.delete(z2,0)
+    pull = np.delete(z3,0)
+    vet = np.delete(z4,0)
+    other = np.delete(z5,0)
+
+    all_cost = [pull, feed, addi, vet, other]
+
+    plt.style.use('bmh')
+
+    fig, ax = plt.subplots()
+    ax.stackplot(weeks_axis, all_cost,
+                 labels=['Pullet', 'Feed', 'Additive', 'Vet', 'other'],
+                 )
+    ax.legend(loc='upper left')
+    ax.set_title('Cumulative weekly cost')
+    ax.set_xlabel('Production week')
+    ax.set_ylabel('Value ($)')
+
+    plt.show()
+
