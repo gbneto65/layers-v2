@@ -1,4 +1,4 @@
-# module to center user input (monthly) to layer / weekly
+# module to convert user input (monthly) to layer / weekly
 
 from Defs import exit_app
 from system_setup import *

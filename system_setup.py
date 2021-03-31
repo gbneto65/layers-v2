@@ -70,6 +70,9 @@ egg_market = {
 
 }
 
+system_setup = {
+                'round_decimals': 3
+                }
 
 adj_to_performance_data = {
 # the values should be in percentual (ex: 0.01 = 1%, -.1 = -10%)

@@ -9,7 +9,8 @@ from convert_month_to_layer_week import InputConvertion
 from create_array_parameters import CreateArraysFromParameters, CreateArraysFromParametersNotIncludedInDf
 from extract_df_info import ExtractDfInfo, df_indexing
 from parameters import csv_file_name
-from Defs import exit_app, display_intro_and_user_inputs
+from Defs import exit_app, display_intro_and_user_inputs, display_cost_by_week, display_earn_by_week, \
+    display_delta_earn_cost_by_week, create_intro_table
 from random_numbers import CreateRndNumbers
 from system_setup import error_msn, other_msn, cost_setup, n_repetitions, table_user_input_cost_fields
 from user_genetic_selection import UserGeneticSelection
@@ -19,8 +20,6 @@ from verify_input import VerifyUserInput, user_type_error
 
 if __name__ == "__main__":
 
-    # show intro on screen
-    display_intro_and_user_inputs()
 
     # verify input errors from 'system_setup.py'
     user_type_error()
@@ -157,8 +156,6 @@ if __name__ == "__main__":
     else:
         print(f'CSV file {csv_file_name} was open\n')
 
-    print(layer_df.head)
-
     # select the layer genetics from the DF
     genetic_options = layer_df['genetic_ident'].unique()
     print('\n' + other_msn['user_genetic_options_msn'])
@@ -166,16 +163,17 @@ if __name__ == "__main__":
         print(f'Option [{i}] = {genetic_options[i]}')
 
     # user input about layer breed (genetics)
-    select = int(input(' ? (type 10 to exit)'))
+    genetic_user_selection = int(input(' ? (type 10 to exit)'))
 
-    if select == 10:
+    if genetic_user_selection == 10:
         exit_app(error_msn['abort_user'])
-    elif select > len(genetic_options):
+    elif genetic_user_selection > len(genetic_options):
         exit_app(error_msn['wrong_selection'])
     else:
         # create a subset of the original database base on user input (layer genetic)
-        genetic_selection = UserGeneticSelection(layer_df, genetic_options[select])
+        genetic_selection = UserGeneticSelection(layer_df, genetic_options[genetic_user_selection])
         selected_df = genetic_selection.user_selection()
+
 
     # indexing DF by production week
     select_df = df_indexing(selected_df)
@@ -187,14 +185,15 @@ if __name__ == "__main__":
     last_prod_week = df_info.get_last_production_week()
     hen_egg_color = df_info.get_egg_color()
 
+
     print(f'\nTotal weeks of production: {total_prod_week}')
     print(f'First weeks of production: {first_prod_week}')
     print(f'Last weeks of production: {last_prod_week}\n')
     print(f'The eggs color for this genetics is: {hen_egg_color}\n')
 
     # todo - display general info about genetics data
-
-
+    # show intro on screen
+    print(create_intro_table(genetic_options[genetic_user_selection]))
 
     # print(selected_df.head)
 
@@ -305,6 +304,26 @@ if __name__ == "__main__":
     #print(array_rnd_egg_sales_hen_week)
 
     # total costs calculation
+
+    array_cost = [
+                array_feed_cost_week_hen,
+                array_additive_cost_week_hen,
+                array_pullet_cost,
+                array_rnd_vet_cost_per_bird,
+                array_rnd_other_cost_per_bird,
+                  ]
+
+    array_earnings = [
+                   array_rnd_egg_sales_hen_week,
+                   array_rnd_other_earn_per_bird,
+                     ]
+
+
+    print(display_cost_by_week(first_prod_week, last_prod_week, array_cost))
+    print(display_earn_by_week(first_prod_week, last_prod_week, array_earnings))
+    print(display_delta_earn_cost_by_week (first_prod_week, last_prod_week, array_cost, array_earnings))
+
+
     array_total_costs = array_feed_cost_week_hen\
                         + array_additive_cost_week_hen\
                         + array_pullet_cost\
@@ -316,28 +335,7 @@ if __name__ == "__main__":
                            + array_rnd_other_earn_per_bird
 
 
-    print(array_total_costs)
-    print(array_total_earnings)
 
-
-    #print(len(array_total_earnings))
-
-
-
-
-
-
-    # for i in range (1 + last_prod_week - first_prod_week):
-    #     b = rnd_pullet_cost
-    #     c = np.row_stack((c, b))
-    #
-    # c = np.delete(c, 0, 0)
-    # print(len(c))
-    # print(c)
-
-    #print(array_pullet_cost_week_hen)
-
-    #
     # todo adj still not considered
 
 
