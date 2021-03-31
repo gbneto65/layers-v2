@@ -12,15 +12,15 @@ case_identification_setup = {
 
         }
 farm_setup = {
-        'number_of_layers': 1000,
+        'number_of_layers': 1,
              }
 # cost user input parameters
 # implemented distributions : U = Uniform, T = Triangular, F = Fixed value
 cost_setup = {
                 "pullet_cost_mim" : 1,
-                "pullet_cost_mp" : 2,
-                "pullet_cost_max" : 3,
-                "pullet_cost_distr": 'T',
+                "pullet_cost_mp" : 5,
+                "pullet_cost_max" : 6,
+                "pullet_cost_distr": 'f',
 
                 "feed_cost_ton_mim": 250,
                 "feed_cost_ton_mp": 300,
@@ -30,48 +30,48 @@ cost_setup = {
                 "additive_cost_ton_mim": 2,
                 "additive_cost_ton_mp": 3,
                 "additive_cost_ton_max": 4,
-                "additive_cost_ton_distr": 'T',
+                "additive_cost_ton_distr": 'f',
 
 # monthly cost should be converted by layer cost / week
-                "vet_cost_month_mim": 250,
-                "vet_cost_month_mp": 300,
-                "vet_cost_month_max": 350,
-                "vet_cost_month_distr": 'T',
+                "vet_cost_month_mim": 2,
+                "vet_cost_month_mp": 3,
+                "vet_cost_month_max": 3.5,
+                "vet_cost_month_distr": 'f',
 
-                "other_cost_month_mim": 250,
-                "other_cost_month_mp": 300,
-                "other_cost_month_max": 350,
-                "other_cost_month_distr": 'T',
+                "other_cost_month_mim": .5,
+                "other_cost_month_mp": 1,
+                "other_cost_month_max": 2,
+                "other_cost_month_distr": 'f',
 
              }
 
 egg_market = {
-                  'white_std_egg_price_min' : 1,
-                  'white_std_egg_price_mp' : 1.1,
+                  'white_std_egg_price_min' : .9,
+                  'white_std_egg_price_mp' : 1,
                   'white_std_egg_price_max' : 1.2,
                   'white_std_egg_price_distr' : 'F',
 
-                  'white_std_egg_weight_g' : 65,
+                  'white_std_egg_weight_g' : 85,
 
-                  'brown_std_egg_price_min' : 1,
-                  'brown_std_egg_price_mp' : 1.1,
+                  'brown_std_egg_price_min' : .9,
+                  'brown_std_egg_price_mp' : 1,
                   'brown_std_egg_price_max' : 1.2,
                   'brown_std_egg_price_distr' : 'F',
 
-                  'brown_std_egg_weight_g' : 65,
+                  'brown_std_egg_weight_g' : 85,
 
-                  'sale_unit' : 12, # price refer to X eggs
+                  'sale_unit' : 1, # price refer to X eggs
 
-                  'other_earning_month_min' : 100, # other potentialy earnings (feces, etc)
-                  'other_earning_month_mp' : 101,
-                  'other_earning_month_max' : 102,
-                  'other_earning_month_distr' : 'T',
+                  'other_earning_month_min' : .9, # other potentialy earnings (feces, etc)
+                  'other_earning_month_mp' : 1,
+                  'other_earning_month_max' : 1.2,
+                  'other_earning_month_distr' : 'f',
 
 
 }
 
 system_setup = {
-                'round_decimals': 3
+                'round_decimals': 4
                 }
 
 adj_to_performance_data = {

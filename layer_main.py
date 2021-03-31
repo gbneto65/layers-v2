@@ -16,10 +16,7 @@ from system_setup import error_msn, other_msn, cost_setup, n_repetitions, table_
 from user_genetic_selection import UserGeneticSelection
 from verify_input import VerifyUserInput, user_type_error
 
-
-
 if __name__ == "__main__":
-
 
     # verify input errors from 'system_setup.py'
     user_type_error()
@@ -45,19 +42,13 @@ if __name__ == "__main__":
     begg = InputConvertion('begg')
     brown_egg_price_per_kg = begg.convert_to_list()
 
-
     # earnings
     other_earn = InputConvertion('other_earn')
     other_earn_per_bird = other_earn.convert_to_list()
 
     # display a table with conversion results
 
-
-
     # todo - display converted data
-
-
-
 
     # generate rnd numbers for monte carlo simulation - random_numbers.py
     # feed cost
@@ -70,13 +61,14 @@ if __name__ == "__main__":
     rnd_feed_cost_gr_of_feed = feed_cost_gr_of_feed_rnd.rnd_numbers()
 
     # additive cost
-    additive_rnd = CreateRndNumbers(
-        feed_cost_gr_of_feed[0],
-        feed_cost_gr_of_feed[1],
-        feed_cost_gr_of_feed[2],
-        feed_cost_gr_of_feed[3],
-    )
-    rnd_feed_cost_gr_of_feed = additive_rnd.rnd_numbers()
+    additive_rnd = CreateRndNumbers \
+            (
+            additive_cost_gr_of_feed[0],
+            additive_cost_gr_of_feed[1],
+            additive_cost_gr_of_feed[2],
+            additive_cost_gr_of_feed[3],
+        )
+    rnd_additive_cost_gr_of_feed = additive_rnd.rnd_numbers()
 
     # vet cost / therapy cost
     vet_rnd = CreateRndNumbers(
@@ -125,7 +117,6 @@ if __name__ == "__main__":
 
     # earnings
 
-
     other_earn = CreateRndNumbers(
         other_earn_per_bird[0],
         other_earn_per_bird[1],
@@ -134,17 +125,14 @@ if __name__ == "__main__":
     )
     rnd_other_earn_per_bird = other_earn.rnd_numbers()
 
-
-
-    #print(rnd_feed_cost_gr_of_feed)
+    # print(rnd_feed_cost_gr_of_feed)
     # print(rnd_feed_cost_gr_of_feed)
     # print(rnd_vet_cost_per_bird)
     # print(rnd_other_cost_per_bird)
     # print(rnd_brown_egg_price_per_kg)
     # print(rnd_pullet_cost)
     # print(rnd_other_earn_per_bird)
-
-
+    # print(rnd_additive_cost_gr_of_feed)
 
     # read CSV file
     try:
@@ -174,7 +162,6 @@ if __name__ == "__main__":
         genetic_selection = UserGeneticSelection(layer_df, genetic_options[genetic_user_selection])
         selected_df = genetic_selection.user_selection()
 
-
     # indexing DF by production week
     select_df = df_indexing(selected_df)
 
@@ -184,7 +171,6 @@ if __name__ == "__main__":
     first_prod_week = df_info.get_first_production_week()
     last_prod_week = df_info.get_last_production_week()
     hen_egg_color = df_info.get_egg_color()
-
 
     print(f'\nTotal weeks of production: {total_prod_week}')
     print(f'First weeks of production: {first_prod_week}')
@@ -218,61 +204,59 @@ if __name__ == "__main__":
             first_prod_week,
             last_prod_week,
             'cum_feed_hen',
-            rnd_feed_cost_gr_of_feed,
+            rnd_additive_cost_gr_of_feed,
             )
     array_additive_cost_week_hen = a.create_array_from_all_prod_weeks()
 
     # rnd_pullet_cost
-    a = CreateArraysFromParametersNotIncludedInDf\
+    a = CreateArraysFromParametersNotIncludedInDf \
             (
             selected_df,
             first_prod_week,
             last_prod_week,
             rnd_pullet_cost,
-            )
+        )
 
     array_pullet_cost = a.create_array_from_prod_not_df()
 
-
     # rnd_vet_cost_per_bird
-    a = CreateArraysFromParametersNotIncludedInDf\
+    a = CreateArraysFromParametersNotIncludedInDf \
             (
             selected_df,
             first_prod_week,
             last_prod_week,
             rnd_vet_cost_per_bird,
-            )
+        )
 
     array_rnd_vet_cost_per_bird = a.create_array_from_prod_not_df()
 
-
     # rnd_other_cost_per_bird
-    a = CreateArraysFromParametersNotIncludedInDf\
+    a = CreateArraysFromParametersNotIncludedInDf \
             (
             selected_df,
             first_prod_week,
             last_prod_week,
             rnd_other_cost_per_bird,
-            )
+        )
 
     array_rnd_other_cost_per_bird = a.create_array_from_prod_not_df()
 
-    #print(len(array_rnd_other_cost_per_bird))
-    #print(array_rnd_other_cost_per_bird)
+    # print(len(array_rnd_other_cost_per_bird))
+    # print(array_rnd_other_cost_per_bird)
 
     # earnings =========================================
 
     # rnd_other_cost_per_bird
-    a = CreateArraysFromParametersNotIncludedInDf\
+    a = CreateArraysFromParametersNotIncludedInDf \
             (
             selected_df,
             first_prod_week,
             last_prod_week,
             rnd_other_earn_per_bird,
-            )
+        )
 
     array_rnd_other_earn_per_bird = a.create_array_from_prod_not_df()
-    #print(array_rnd_other_earn_per_bird)
+    # print(array_rnd_other_earn_per_bird)
 
     # earnings from egg sales
     # identify the egg color and get egg price according
@@ -284,7 +268,7 @@ if __name__ == "__main__":
                 last_prod_week,
                 'egg_mass_hen',
                 rnd_white_egg_price_per_kg,
-                )
+            )
         array_rnd_egg_sales_hen_week = a.create_array_from_all_prod_weeks()
 
     elif hen_egg_color.lower() == 'brown':
@@ -301,44 +285,35 @@ if __name__ == "__main__":
 
     else:
         exit_app(error_msn['err_egg_sales'])
-    #print(array_rnd_egg_sales_hen_week)
+    # print(array_rnd_egg_sales_hen_week)
 
     # total costs calculation
 
     array_cost = [
-                array_feed_cost_week_hen,
-                array_additive_cost_week_hen,
-                array_pullet_cost,
-                array_rnd_vet_cost_per_bird,
-                array_rnd_other_cost_per_bird,
-                  ]
+        array_feed_cost_week_hen,
+        array_additive_cost_week_hen,
+        array_pullet_cost,
+        array_rnd_vet_cost_per_bird,
+        array_rnd_other_cost_per_bird,
+    ]
 
     array_earnings = [
-                   array_rnd_egg_sales_hen_week,
-                   array_rnd_other_earn_per_bird,
-                     ]
-
+        array_rnd_egg_sales_hen_week,
+        array_rnd_other_earn_per_bird,
+    ]
 
     print(display_cost_by_week(first_prod_week, last_prod_week, array_cost))
     print(display_earn_by_week(first_prod_week, last_prod_week, array_earnings))
-    print(display_delta_earn_cost_by_week (first_prod_week, last_prod_week, array_cost, array_earnings))
+    print(display_delta_earn_cost_by_week(first_prod_week, last_prod_week, array_cost, array_earnings))
 
-
-    array_total_costs = array_feed_cost_week_hen\
-                        + array_additive_cost_week_hen\
-                        + array_pullet_cost\
-                        + array_rnd_vet_cost_per_bird\
+    array_total_costs = array_feed_cost_week_hen \
+                        + array_additive_cost_week_hen \
+                        + array_pullet_cost \
+                        + array_rnd_vet_cost_per_bird \
                         + array_rnd_other_cost_per_bird
 
     # total earnings calculation
-    array_total_earnings = array_rnd_egg_sales_hen_week\
+    array_total_earnings = array_rnd_egg_sales_hen_week \
                            + array_rnd_other_earn_per_bird
 
-
-
     # todo adj still not considered
-
-
-
-
-
