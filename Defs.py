@@ -5,7 +5,8 @@ import winsound
 import numpy as np
 from prettytable import PrettyTable
 from system_setup import error_msn, cost_setup, table_user_input_earn_fields, \
-    table_user_input_cost_fields, egg_market, case_identification_setup, farm_setup, system_setup
+    table_user_input_cost_fields, egg_market, case_identification_setup, farm_setup, system_setup, \
+    setup_chart_cost
 import matplotlib.pyplot as plt
 
 def sound_error():
@@ -401,11 +402,26 @@ def built_charts(first_row, last_row, array_cost, array_earnings):
     fig, ax = plt.subplots()
     ax.stackplot(weeks_axis, all_cost,
                  labels=['Pullet', 'Feed', 'Additive', 'Vet', 'other'],
+                 colors=[
+                        setup_chart_cost [ 'color_pullet_cost'],
+                        setup_chart_cost [ 'color_feed_cost'],
+                        setup_chart_cost [ 'color_additive_cost'],
+                        setup_chart_cost [ 'color_vet_cost'],
+                        setup_chart_cost [ 'color_other_cost'],
+                         ],
+                 alpha = setup_chart_cost [ 'color_alpha_level'],
                  )
-    ax.legend(loc='upper left')
-    ax.set_title('Cumulative weekly cost')
-    ax.set_xlabel('Production week')
-    ax.set_ylabel('Value ($)')
+
+    ax.legend(loc='upper left',
+              fontsize=setup_chart_cost ['legend_font_size'],
+              )
+    ax.set_title('Cumulative weekly cost',
+                 fontsize = setup_chart_cost ['title_font_size'],
+                 )
+    ax.set_xlabel('Production week',
+                  fontsize = setup_chart_cost ['x_label_font_size'])
+    ax.set_ylabel('Value ($)',
+                  fontsize = setup_chart_cost ['x_label_font_size'])
 
     plt.show()
 

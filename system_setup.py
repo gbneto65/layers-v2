@@ -136,3 +136,17 @@ table_user_input_earn_fields = [' ',
                            'Other earning / month',
                            ]
 
+setup_chart_cost = {
+                    'color_pullet_cost' : '#d0ceac',
+                    'color_feed_cost' :   '#9bb797',
+                    'color_additive_cost' : '#494c7d',
+                    'color_vet_cost' : '#5c9a95',
+                    'color_other_cost' : '#b3617b',
+                    'color_alpha_level' : .6,
+                    'legend_font_size': 8,
+                    'title_font_size': 11,
+                    'x_label_font_size': 9,
+                    'y_label_font_size': 9,
+
+
+                    }
