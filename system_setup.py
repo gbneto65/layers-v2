@@ -5,6 +5,13 @@
 # F : fixed value (consider the mp value). However, the min and max should be imputed (not considered)
 # U : uniform
 import os
+import datetime
+now = datetime.datetime.now()
+#print ("Current date and time : ")
+#print (now.strftime("%Y-%m-%d %H:%M:%S"))
+
+
+
 
 case_identification_setup = {
         'id_name' : 'Sr Oscar',
@@ -86,7 +93,7 @@ adj_to_performance_data = {
 
                           }
 app_setup_parameters = {
-                        'app_title' : 'Layer Performance Calculator',
+                        'app_title' : f'Layer Performance Calculator - V2 - {now.strftime("%Y-%m-%d %H:%M:%S")}',
                         'weeks_per_month' : 4.34524,
                         'working_folder' : os.getcwd(),
                         }
@@ -138,12 +145,17 @@ table_user_input_earn_fields = [' ',
 
 setup_chart_cost = {
                     'color_pullet_cost' : '#d0ceac',
-                    'color_feed_cost' :   '#9bb797',
+                    'color_feed_cost' :   '#ee5455',
                     'color_additive_cost' : '#494c7d',
                     'color_vet_cost' : '#5c9a95',
                     'color_other_cost' : '#b3617b',
+
+                    'color_egg_sales_earn' : '#73914f',
+                    'color_other_earn' : '#00559b',
+
                     'color_total_cost' : '#ee5455',
                     'color_total_earn' : '#73914f',
+                    'color_gross_margin' : '#a8b2ba',
                     'color_alpha_level_total_cost' : .7,
                     'color_alpha_level_total_earn' : .5,
                     'color_alpha_level' : .4,

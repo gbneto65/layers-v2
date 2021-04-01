@@ -166,6 +166,7 @@ if __name__ == "__main__":
         genetic_selection = UserGeneticSelection(layer_df, genetic_options[genetic_user_selection])
         selected_df = genetic_selection.user_selection()
 
+
     # indexing DF by production week
     select_df = df_indexing(selected_df)
 
@@ -326,4 +327,8 @@ if __name__ == "__main__":
 
     # todo build charts
     # build charts
-    built_charts(first_prod_week, last_prod_week, array_cost, array_earnings)
+    built_charts(first_prod_week,
+                 last_prod_week,
+                 array_cost,
+                 array_earnings,
+                 genetic_options[genetic_user_selection])

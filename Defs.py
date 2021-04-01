@@ -7,9 +7,11 @@ from IPython.core.pylabtools import figsize
 from prettytable import PrettyTable
 from system_setup import error_msn, cost_setup, table_user_input_earn_fields, \
     table_user_input_cost_fields, egg_market, case_identification_setup, farm_setup, system_setup, \
-    setup_chart_cost
+    setup_chart_cost, app_setup_parameters
 import matplotlib.pyplot as plt
-
+import matplotlib.style
+import matplotlib as mpl
+mpl.style.use('classic')
 
 def sound_error():
     sd1 = [1500, 200]  # frequency, time mseg.
@@ -171,6 +173,7 @@ def display_cost_by_week(first_row, last_row, array_cost):
     #     array_rnd_other_cost_per_bird,
     # ]
     # basics statistics for table
+    print('\nCumulative cost by week\n')
     array_feed_cost_week_hen = array_cost[0]
     array_additive_cost_week_hen = array_cost[1]
     array_pullet_cost = array_cost[2]
@@ -245,6 +248,8 @@ def display_earn_by_week(first_row, last_row, array_earnings):
     # ]
 
     # basics statistics for table
+    print('\nCumulative earnings by week\n')
+
     array_rnd_egg_sales_hen_week = array_earnings[0]
     array_rnd_other_earn_per_bird = array_earnings[1]
 
@@ -289,6 +294,7 @@ def display_delta_earn_cost_by_week(first_row, last_row, array_cost, array_earni
     # display the delta from earnings and cost
 
     # costs
+    print('\nProfitability table - \n ')
     array_feed_cost_week_hen = array_cost[0]
     array_additive_cost_week_hen = array_cost[1]
     array_pullet_cost = array_cost[2]
@@ -342,7 +348,8 @@ def display_delta_earn_cost_by_week(first_row, last_row, array_cost, array_earni
     return x
 
 
-def built_charts(first_row, last_row, array_cost, array_earnings):
+def built_charts(first_row, last_row, array_cost, array_earnings, user_genetic):
+    mpl.style.use('classic')
     # costs
     array_feed_cost_week_hen = array_cost[0]
     array_additive_cost_week_hen = array_cost[1]
@@ -415,6 +422,8 @@ def built_charts(first_row, last_row, array_cost, array_earnings):
 
         z9 = np.row_stack((z9, j))
 
+
+
     # delete first [0] row of the np.array
     feed = np.delete(z1, 0)
     addi = np.delete(z2, 0)
@@ -427,6 +436,12 @@ def built_charts(first_row, last_row, array_cost, array_earnings):
     total_cost = np.delete(z8, 0)
     total_earning = np.delete(z9, 0)
 
+    gross_margin = (total_earning - total_cost) / total_earning * 100
+    max_gross_margin = np.amax(gross_margin)
+
+
+
+
     all_cost = [pull, feed, addi, vet, other]
     all_earn = [egg_sales, other_earning]
 
@@ -436,7 +451,9 @@ def built_charts(first_row, last_row, array_cost, array_earnings):
 
     plt.style.use('ggplot')
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 4))
-    fig.suptitle('Cumulative Cost & Earnings')
+    fig.suptitle('Cumulative Cost & Earnings',
+                 fontsize =20,
+                 )
 
     ax1.stackplot(weeks_axis, all_cost,
                   labels=['Pullet', 'Feed', 'Additive', 'Vet', 'other'],
@@ -453,31 +470,53 @@ def built_charts(first_row, last_row, array_cost, array_earnings):
     ax1.legend(loc='upper left',
                fontsize=setup_chart_cost['legend_font_size'],
                )
-    ax1.set_title('Cumulative weekly cost',
+    ax1.set_title('cost',
                   fontsize=setup_chart_cost['title_font_size'],
                   )
     ax1.set_xlabel('Production week',
                    fontsize=setup_chart_cost['x_label_font_size'])
     ax1.set_ylabel('Value ($)',
                    fontsize=setup_chart_cost['x_label_font_size'])
+    ax1.set_xlim(xmin=first_row)
+
 
     ax2.stackplot(weeks_axis, all_earn,
                   labels=['Egg Sales', 'Other Sales'],
                   alpha=setup_chart_cost['color_alpha_level'],
+                  colors=[
+                         setup_chart_cost['color_egg_sales_earn'],
+                         setup_chart_cost['color_other_earn'],
+                         ],
                   )
 
     ax2.legend(loc='upper left',
                fontsize=setup_chart_cost['legend_font_size'],
                )
-    ax2.set_title('Cumulative weekly Earnings',
+    ax2.set_title('Earnings',
                   fontsize=setup_chart_cost['title_font_size'],
                   )
     ax2.set_xlabel('Production week',
                    fontsize=setup_chart_cost['x_label_font_size'])
     ax2.set_ylabel('Value ($)',
                    fontsize=setup_chart_cost['x_label_font_size'])
+    ax2.set_xlim(xmin=first_row)
+
+    plt.figtext(.7, .005,
+                app_setup_parameters['app_title'],
+                fontsize=9,
+                alpha=.8)
+
+    plt.figtext(0.12, .01,
+                case_identification_setup['id_name']
+                + ' - ' + case_identification_setup['Country']
+                + ' - Layer breed: ' + user_genetic.capitalize(),
+                fontsize=8,
+                alpha=.8)
 
     plt.show()
+
+
+
 
     plt.style.use('classic')
     # plt.style.use('bmh')
@@ -485,7 +524,6 @@ def built_charts(first_row, last_row, array_cost, array_earnings):
     fig.suptitle('Cumulative Cost & Earnings',
                  fontsize=15,
                  )
-
     # costs
     ax3.stackplot(weeks_axis, cost_and_earn[0],
                   labels=['Cost'],
@@ -506,26 +544,66 @@ def built_charts(first_row, last_row, array_cost, array_earnings):
     ax3.set_ylabel('Value ($)',
                    fontsize=setup_chart_cost['y_label_font_size'] + 12)
     ax3.grid(color='#FFFFFF', linewidth=3)
+    ax3.set_xlim(xmin=first_row)
+    plt.figtext(.7, .005,
+                app_setup_parameters['app_title'],
+                fontsize=9,
+                alpha=.8)
 
-    # ax1.plot(weeks_axis, total_cost, total_earning,
-    #               labels=['Cost', 'Earnings'],
-    #               colors=[
-    #                   setup_chart_cost['color_pullet_cost'],
-    #                   setup_chart_cost['color_other_cost'],
-    #               ],
-    #               alpha=setup_chart_cost['color_alpha_level'],
-    #               )
-    #
-    # ax1.legend(loc='upper left',
-    #            fontsize=setup_chart_cost['legend_font_size'],
-    #            )
-    # ax1.set_title('Cumulative weekly Cost & Earnings',
-    #               fontsize=setup_chart_cost['title_font_size'],
-    #               )
-    # ax1.set_xlabel('Production week',
-    #                 fontsize=setup_chart_cost['x_label_font_size'])
-    # ax1.set_ylabel('Value ($)',
-    #                fontsize=setup_chart_cost['x_label_font_size'])
-    #
+    plt.figtext(0.12, .01,
+                case_identification_setup['id_name']
+                + ' - ' + case_identification_setup['Country']
+                + ' - Layer breed: ' + user_genetic.capitalize(),
+                fontsize=8,
+                alpha=.8)
+
+    plt.show()
+
+
+
+    plt.style.use('classic')
+    fig, (ax4) = plt.subplots(1, figsize=(8, 4))
+    fig.suptitle('Gross Margin',
+                 fontsize=15,
+                 )
+    # costs
+    ax4.stackplot(weeks_axis, gross_margin,
+                  labels=['gross Margin (%)'],
+                  colors=[setup_chart_cost['color_gross_margin']],
+                  alpha=setup_chart_cost['color_alpha_level'],
+                  )
+
+    ax4.legend(loc='upper left',
+               fontsize=setup_chart_cost['legend_font_size'] + 10)
+    ax4.set_xlabel('Production week',
+                   fontsize=setup_chart_cost['x_label_font_size'] + 10)
+    ax4.set_ylabel('Gross Margin (%)',
+                   fontsize=setup_chart_cost['y_label_font_size'] + 12)
+    ax4.grid(color='#ccd2d6', linewidth=2)
+
+    ax4.set_ylim(ymin=-20)
+    ax4.set_ylim(ymax=max_gross_margin + 10)
+    ax4.set_xlim(xmin=first_row)
+    ax4.axhline(max_gross_margin,
+                linestyle='dashed',
+                label='Max GM',
+                color='#869493',
+                )
+    ax4.annotate('GM max.: ' + str(round(max_gross_margin,2)) + '%',
+                 xy=(40, max_gross_margin), xytext=(40, max_gross_margin+.5),
+                 fontsize=12,
+                 alpha = .5
+                 )
+    plt.figtext(.7, .005,
+                app_setup_parameters['app_title'],
+                fontsize=9,
+                alpha = .8)
+
+    plt.figtext(0.12, .01,
+                case_identification_setup['id_name']
+                + ' - ' + case_identification_setup['Country']
+                + ' - Layer breed: ' + user_genetic.capitalize(),
+                fontsize=8,
+                alpha=.8)
 
     plt.show()
