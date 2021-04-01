@@ -12,7 +12,7 @@ case_identification_setup = {
 
         }
 farm_setup = {
-        'number_of_layers': 1000,
+        'number_of_layers': 1000000,
              }
 # cost user input parameters
 # implemented distributions : U = Uniform, T = Triangular, F = Fixed value
@@ -23,7 +23,7 @@ cost_setup = {
                 "pullet_cost_distr": 'f',
 
                 "feed_cost_ton_mim": 250,
-                "feed_cost_ton_mp": 330,
+                "feed_cost_ton_mp": 320,
                 "feed_cost_ton_max": 350,
                 "feed_cost_ton_distr": 'f',
 
@@ -33,25 +33,25 @@ cost_setup = {
                 "additive_cost_ton_distr": 'f',
 
 # monthly cost should be converted by layer cost / week
-                "vet_cost_month_mim": 2,
-                "vet_cost_month_mp": 3,
-                "vet_cost_month_max": 3.5,
+                "vet_cost_month_mim": 2000,
+                "vet_cost_month_mp": 3000,
+                "vet_cost_month_max": 3500,
                 "vet_cost_month_distr": 'f',
 
-                "other_cost_month_mim": .5,
-                "other_cost_month_mp": 1,
-                "other_cost_month_max": 2,
+                "other_cost_month_mim": 3000,
+                "other_cost_month_mp": 3500,
+                "other_cost_month_max": 4000,
                 "other_cost_month_distr": 'f',
 
              }
 
 egg_market = {
-                  'white_std_egg_price_min' : .9,
-                  'white_std_egg_price_mp' : 1,
-                  'white_std_egg_price_max' : 1.2,
+                  'white_std_egg_price_min' : 83,
+                  'white_std_egg_price_mp' : 96,
+                  'white_std_egg_price_max' : 115,
                   'white_std_egg_price_distr' : 'F',
 
-                  'white_std_egg_weight_g' : 85,
+                  'white_std_egg_weight_g' : 65,
 
                   'brown_std_egg_price_min' : 83.91,
                   'brown_std_egg_price_mp' : 96.48,
@@ -71,7 +71,7 @@ egg_market = {
 }
 
 system_setup = {
-                'round_decimals': 4
+                'round_decimals': 3
                 }
 
 adj_to_performance_data = {
@@ -142,11 +142,16 @@ setup_chart_cost = {
                     'color_additive_cost' : '#494c7d',
                     'color_vet_cost' : '#5c9a95',
                     'color_other_cost' : '#b3617b',
-                    'color_alpha_level' : .6,
+                    'color_total_cost' : '#ee5455',
+                    'color_total_earn' : '#73914f',
+                    'color_alpha_level_total_cost' : .7,
+                    'color_alpha_level_total_earn' : .5,
+                    'color_alpha_level' : .4,
+
                     'legend_font_size': 8,
                     'title_font_size': 11,
-                    'x_label_font_size': 9,
-                    'y_label_font_size': 9,
+                    'x_label_font_size': 10,
+                    'y_label_font_size': 10,
 
 
                     }

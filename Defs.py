@@ -3,11 +3,13 @@ from winsound import Beep
 
 import winsound
 import numpy as np
+from IPython.core.pylabtools import figsize
 from prettytable import PrettyTable
 from system_setup import error_msn, cost_setup, table_user_input_earn_fields, \
     table_user_input_cost_fields, egg_market, case_identification_setup, farm_setup, system_setup, \
     setup_chart_cost
 import matplotlib.pyplot as plt
+
 
 def sound_error():
     sd1 = [1500, 200]  # frequency, time mseg.
@@ -283,7 +285,7 @@ def display_earn_by_week(first_row, last_row, array_earnings):
     return x
 
 
-def display_delta_earn_cost_by_week (first_row, last_row, array_cost, array_earnings):
+def display_delta_earn_cost_by_week(first_row, last_row, array_cost, array_earnings):
     # display the delta from earnings and cost
 
     # costs
@@ -299,16 +301,14 @@ def display_delta_earn_cost_by_week (first_row, last_row, array_cost, array_earn
 
     x = PrettyTable()
     x.field_names = [
-                'Week',
-                'Costs',
-                'Earnings',
-                'Delta',
-                'Gross Margem (%)',
-                          ]
-
+        'Week',
+        'Costs',
+        'Earnings',
+        'Delta',
+        'Gross Margem (%)',
+    ]
 
     for i in range(1 + last_row - first_row):
-
         average_feed_cost_week_hen = np.average(array_feed_cost_week_hen[i, :])
         average_pullet_cost = np.average(array_pullet_cost[i, :])
         average_additive_cost_week_hen = np.average(array_additive_cost_week_hen[i, :])
@@ -320,7 +320,6 @@ def display_delta_earn_cost_by_week (first_row, last_row, array_cost, array_earn
                                       + average_additive_cost_week_hen \
                                       + average_vet_cost_per_bird \
                                       + average_other_cost_per_bird
-
 
         average_array_rnd_egg_sales_hen_week = np.average(array_rnd_egg_sales_hen_week[i, :])
         average_array_rnd_other_earn_per_bird = np.average(array_rnd_other_earn_per_bird[i, :])
@@ -337,9 +336,8 @@ def display_delta_earn_cost_by_week (first_row, last_row, array_cost, array_earn
             # delta earnings / cost
             round(delta_earnings_cost_per_week, system_setup['round_decimals']),
             # Gross margem
-            round(delta_earnings_cost_per_week / average_total_earnings_per_week *100, system_setup['round_decimals']),
-                ])
-
+            round(delta_earnings_cost_per_week / average_total_earnings_per_week * 100, system_setup['round_decimals']),
+        ])
 
     return x
 
@@ -356,8 +354,6 @@ def built_charts(first_row, last_row, array_cost, array_earnings):
     array_rnd_egg_sales_hen_week = array_earnings[0]
     array_rnd_other_earn_per_bird = array_earnings[1]
 
-    #feed_cost = np.zeros([1 + last_row - first_row], dtype = float)
-
     weeks_axis = np.arange(first_row, 1 + last_row, 1)
 
     # initialization of numpy array
@@ -366,6 +362,12 @@ def built_charts(first_row, last_row, array_cost, array_earnings):
     z3 = np.zeros(1, dtype=float)
     z4 = np.zeros(1, dtype=float)
     z5 = np.zeros(1, dtype=float)
+
+    z6 = np.zeros(1, dtype=float)
+    z7 = np.zeros(1, dtype=float)
+
+    z8 = np.zeros(1, dtype=float)
+    z9 = np.zeros(1, dtype=float)
 
     for i in range(1 + last_row - first_row):
         # feed
@@ -388,40 +390,142 @@ def built_charts(first_row, last_row, array_cost, array_earnings):
         e = np.average(array_rnd_other_cost_per_bird[i, :])
         z5 = np.row_stack((z5, e))
 
+        # earning from egg sales
+        f = np.average(array_rnd_egg_sales_hen_week[i, :])
+        z6 = np.row_stack((z6, f))
+
+        # other earnings
+        g = np.average(array_rnd_other_earn_per_bird[i, :])
+        z7 = np.row_stack((z7, g))
+
+        # Delta - Earnings - Cost
+
+        h = np.average(array_rnd_other_cost_per_bird[i, :]) \
+            + np.average(array_rnd_vet_cost_per_bird[i, :]) \
+            + np.average(array_pullet_cost[i, :]) \
+            + np.average(array_additive_cost_week_hen[i, :]) \
+            + np.average(array_feed_cost_week_hen[i, :])
+
+        z8 = np.row_stack((z8, h))
+
+        # Delta - Earnings - Cost
+
+        j = np.average(array_rnd_other_earn_per_bird[i, :]) \
+            + np.average(array_rnd_egg_sales_hen_week[i, :])
+
+        z9 = np.row_stack((z9, j))
+
     # delete first [0] row of the np.array
-    feed = np.delete(z1,0)
-    addi = np.delete(z2,0)
-    pull = np.delete(z3,0)
-    vet = np.delete(z4,0)
-    other = np.delete(z5,0)
+    feed = np.delete(z1, 0)
+    addi = np.delete(z2, 0)
+    pull = np.delete(z3, 0)
+    vet = np.delete(z4, 0)
+    other = np.delete(z5, 0)
+    egg_sales = np.delete(z6, 0)
+    other_earning = np.delete(z7, 0)
+
+    total_cost = np.delete(z8, 0)
+    total_earning = np.delete(z9, 0)
 
     all_cost = [pull, feed, addi, vet, other]
+    all_earn = [egg_sales, other_earning]
 
-    plt.style.use('bmh')
+    cost_and_earn = [total_cost, total_earning]
 
-    fig, ax = plt.subplots()
-    ax.stackplot(weeks_axis, all_cost,
-                 labels=['Pullet', 'Feed', 'Additive', 'Vet', 'other'],
-                 colors=[
-                        setup_chart_cost [ 'color_pullet_cost'],
-                        setup_chart_cost [ 'color_feed_cost'],
-                        setup_chart_cost [ 'color_additive_cost'],
-                        setup_chart_cost [ 'color_vet_cost'],
-                        setup_chart_cost [ 'color_other_cost'],
-                         ],
-                 alpha = setup_chart_cost [ 'color_alpha_level'],
-                 )
+    # built the charts
 
-    ax.legend(loc='upper left',
-              fontsize=setup_chart_cost ['legend_font_size'],
-              )
-    ax.set_title('Cumulative weekly cost',
-                 fontsize = setup_chart_cost ['title_font_size'],
-                 )
-    ax.set_xlabel('Production week',
-                  fontsize = setup_chart_cost ['x_label_font_size'])
-    ax.set_ylabel('Value ($)',
-                  fontsize = setup_chart_cost ['x_label_font_size'])
+    plt.style.use('ggplot')
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 4))
+    fig.suptitle('Cumulative Cost & Earnings')
+
+    ax1.stackplot(weeks_axis, all_cost,
+                  labels=['Pullet', 'Feed', 'Additive', 'Vet', 'other'],
+                  colors=[
+                      setup_chart_cost['color_pullet_cost'],
+                      setup_chart_cost['color_feed_cost'],
+                      setup_chart_cost['color_additive_cost'],
+                      setup_chart_cost['color_vet_cost'],
+                      setup_chart_cost['color_other_cost'],
+                  ],
+                  alpha=setup_chart_cost['color_alpha_level'],
+                  )
+
+    ax1.legend(loc='upper left',
+               fontsize=setup_chart_cost['legend_font_size'],
+               )
+    ax1.set_title('Cumulative weekly cost',
+                  fontsize=setup_chart_cost['title_font_size'],
+                  )
+    ax1.set_xlabel('Production week',
+                   fontsize=setup_chart_cost['x_label_font_size'])
+    ax1.set_ylabel('Value ($)',
+                   fontsize=setup_chart_cost['x_label_font_size'])
+
+    ax2.stackplot(weeks_axis, all_earn,
+                  labels=['Egg Sales', 'Other Sales'],
+                  alpha=setup_chart_cost['color_alpha_level'],
+                  )
+
+    ax2.legend(loc='upper left',
+               fontsize=setup_chart_cost['legend_font_size'],
+               )
+    ax2.set_title('Cumulative weekly Earnings',
+                  fontsize=setup_chart_cost['title_font_size'],
+                  )
+    ax2.set_xlabel('Production week',
+                   fontsize=setup_chart_cost['x_label_font_size'])
+    ax2.set_ylabel('Value ($)',
+                   fontsize=setup_chart_cost['x_label_font_size'])
 
     plt.show()
 
+    plt.style.use('classic')
+    # plt.style.use('bmh')
+    fig, (ax3) = plt.subplots(1, figsize=(8, 4))
+    fig.suptitle('Cumulative Cost & Earnings',
+                 fontsize=15,
+                 )
+
+    # costs
+    ax3.stackplot(weeks_axis, cost_and_earn[0],
+                  labels=['Cost'],
+                  colors=[setup_chart_cost['color_total_cost']],
+                  alpha=setup_chart_cost['color_alpha_level_total_cost'],
+                  )
+
+    # earnings
+    ax3.stackplot(weeks_axis, cost_and_earn[1],
+                  labels=['Earning'],
+                  colors=[setup_chart_cost['color_vet_cost']],
+                  alpha=setup_chart_cost['color_alpha_level_total_earn'],
+                  )
+    ax3.legend(loc='upper left',
+               fontsize=setup_chart_cost['legend_font_size'] + 10)
+    ax3.set_xlabel('Production week',
+                   fontsize=setup_chart_cost['x_label_font_size'] + 10)
+    ax3.set_ylabel('Value ($)',
+                   fontsize=setup_chart_cost['y_label_font_size'] + 12)
+    ax3.grid(color='#FFFFFF', linewidth=3)
+
+    # ax1.plot(weeks_axis, total_cost, total_earning,
+    #               labels=['Cost', 'Earnings'],
+    #               colors=[
+    #                   setup_chart_cost['color_pullet_cost'],
+    #                   setup_chart_cost['color_other_cost'],
+    #               ],
+    #               alpha=setup_chart_cost['color_alpha_level'],
+    #               )
+    #
+    # ax1.legend(loc='upper left',
+    #            fontsize=setup_chart_cost['legend_font_size'],
+    #            )
+    # ax1.set_title('Cumulative weekly Cost & Earnings',
+    #               fontsize=setup_chart_cost['title_font_size'],
+    #               )
+    # ax1.set_xlabel('Production week',
+    #                 fontsize=setup_chart_cost['x_label_font_size'])
+    # ax1.set_ylabel('Value ($)',
+    #                fontsize=setup_chart_cost['x_label_font_size'])
+    #
+
+    plt.show()

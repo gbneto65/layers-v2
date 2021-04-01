@@ -1,4 +1,8 @@
 # layer project V2
+# the objetive from this app is to evaluate the economical performance of the egg production under different conditions
+# it is possible also to evaluate which layer breed is more profitable.
+
+
 # main module
 # todo - change the field "egg_mass_kg" to "cum_egg_mass_kg"
 
