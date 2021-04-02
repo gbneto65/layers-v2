@@ -14,9 +14,10 @@ from create_array_parameters import CreateArraysFromParameters, CreateArraysFrom
 from extract_df_info import ExtractDfInfo, df_indexing
 from parameters import csv_file_name
 from Defs import exit_app, display_intro_and_user_inputs, display_cost_by_week, display_earn_by_week, \
-    display_delta_earn_cost_by_week, create_intro_table, built_charts
+    display_delta_earn_cost_by_week, create_intro_table, built_charts, display_text_before_table
 from random_numbers import CreateRndNumbers
-from system_setup import error_msn, other_msn, cost_setup, n_repetitions, table_user_input_cost_fields
+from system_setup import error_msn, other_msn, cost_setup, n_repetitions, table_user_input_cost_fields, \
+    case_identification_setup
 from user_genetic_selection import UserGeneticSelection
 from verify_input import VerifyUserInput, user_type_error
 
@@ -304,11 +305,20 @@ if __name__ == "__main__":
         array_rnd_other_earn_per_bird,
     ]
     # built the text tables
+    display_text_before_table('Cumulative production cost by week', case_identification_setup['Country'],
+                              genetic_options[genetic_user_selection]
+                              )
     print(display_cost_by_week(first_prod_week, last_prod_week, array_cost))
+
+    display_text_before_table('Cumulative production earnings by week', case_identification_setup['Country'],
+                              genetic_options[genetic_user_selection]
+                              )
     print(display_earn_by_week(first_prod_week, last_prod_week, array_earnings))
+
+    display_text_before_table('Profit & Losses (P&L) by production week', case_identification_setup['Country'],
+                              genetic_options[genetic_user_selection]
+                              )
     print(display_delta_earn_cost_by_week(first_prod_week, last_prod_week, array_cost, array_earnings))
-
-
 
 
 

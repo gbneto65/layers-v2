@@ -160,8 +160,9 @@ def display_intro_and_user_inputs():
     print('\n')
 
 
-def display_converted_data():
-    pass
+def display_text_before_table(text, case_country, user_genetic):
+    print(f'\n{text}\n Country: {case_country} - Layer breed: {user_genetic.capitalize()}')
+
 
 
 def display_cost_by_week(first_row, last_row, array_cost):
@@ -173,7 +174,7 @@ def display_cost_by_week(first_row, last_row, array_cost):
     #     array_rnd_other_cost_per_bird,
     # ]
     # basics statistics for table
-    print('\nCumulative cost by week\n')
+
     array_feed_cost_week_hen = array_cost[0]
     array_additive_cost_week_hen = array_cost[1]
     array_pullet_cost = array_cost[2]
@@ -248,7 +249,7 @@ def display_earn_by_week(first_row, last_row, array_earnings):
     # ]
 
     # basics statistics for table
-    print('\nCumulative earnings by week\n')
+
 
     array_rnd_egg_sales_hen_week = array_earnings[0]
     array_rnd_other_earn_per_bird = array_earnings[1]
@@ -438,9 +439,7 @@ def built_charts(first_row, last_row, array_cost, array_earnings, user_genetic):
 
     gross_margin = (total_earning - total_cost) / total_earning * 100
     max_gross_margin = np.amax(gross_margin)
-
-
-
+    print(vet)
 
     all_cost = [pull, feed, addi, vet, other]
     all_earn = [egg_sales, other_earning]
@@ -560,11 +559,16 @@ def built_charts(first_row, last_row, array_cost, array_earnings, user_genetic):
     plt.show()
 
 
+    # Gross margin plot
+    # max_gross_margin
+    #supper = np.ma.masked_where(gross_margin  > 0, gross_margin, copy=True )
+    #slower = np.ma.masked_where(gross_margin  <= 0, gross_margin, copy=True )
+
 
     plt.style.use('classic')
     fig, (ax4) = plt.subplots(1, figsize=(8, 4))
-    fig.suptitle('Gross Margin',
-                 fontsize=15,
+    fig.suptitle('Egg Production Gross Margin (GM)',
+                 fontsize=20,
                  )
     # costs
     ax4.stackplot(weeks_axis, gross_margin,
@@ -572,7 +576,7 @@ def built_charts(first_row, last_row, array_cost, array_earnings, user_genetic):
                   colors=[setup_chart_cost['color_gross_margin']],
                   alpha=setup_chart_cost['color_alpha_level'],
                   )
-
+        #
     ax4.legend(loc='upper left',
                fontsize=setup_chart_cost['legend_font_size'] + 10)
     ax4.set_xlabel('Production week',

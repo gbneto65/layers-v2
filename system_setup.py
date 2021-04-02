@@ -35,14 +35,14 @@ cost_setup = {
                 "feed_cost_ton_distr": 'f',
 
                 "additive_cost_ton_mim": 2,
-                "additive_cost_ton_mp": 3,
-                "additive_cost_ton_max": 4,
+                "additive_cost_ton_mp": 5,
+                "additive_cost_ton_max": 6,
                 "additive_cost_ton_distr": 'f',
 
 # monthly cost should be converted by layer cost / week
-                "vet_cost_month_mim": 2000,
-                "vet_cost_month_mp": 3000,
-                "vet_cost_month_max": 3500,
+                "vet_cost_month_mim": 200000,
+                "vet_cost_month_mp": 300000,
+                "vet_cost_month_max": 350000,
                 "vet_cost_month_distr": 'f',
 
                 "other_cost_month_mim": 3000,
@@ -144,7 +144,7 @@ table_user_input_earn_fields = [' ',
                            ]
 
 setup_chart_cost = {
-                    'color_pullet_cost' : '#d0ceac',
+                    'color_pullet_cost' : '#ffbaba',
                     'color_feed_cost' :   '#ee5455',
                     'color_additive_cost' : '#494c7d',
                     'color_vet_cost' : '#5c9a95',
@@ -155,7 +155,7 @@ setup_chart_cost = {
 
                     'color_total_cost' : '#ee5455',
                     'color_total_earn' : '#73914f',
-                    'color_gross_margin' : '#a8b2ba',
+                    'color_gross_margin' : '#6f7575',
                     'color_alpha_level_total_cost' : .7,
                     'color_alpha_level_total_earn' : .5,
                     'color_alpha_level' : .4,
