@@ -47,3 +47,17 @@ class CreateArraysFromParametersNotIncludedInDf:
         c = np.delete(c, 0, 0)
 
         return c
+
+    def create_array_from_prod_not_df_with_cumulative(self):
+
+        c = np.zeros([n_repetitions], dtype=float)
+
+
+        for i in range(1 + self.last_row - self.first_row):
+            b = self.rnd_parameter_name
+            c = np.row_stack((c, b))
+
+        c = np.delete(c, 0, 0)
+        d = np.cumsum(c, axis=0) # cumulative values
+
+        return d

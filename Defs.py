@@ -184,7 +184,7 @@ def display_cost_by_week(first_row, last_row, array_cost):
     x = PrettyTable()
 
     x.field_names = [
-        'Week',
+        'Weeks of age',
         'Pullet cost',
         'Pullet (%)',
         'feed cost',
@@ -256,7 +256,7 @@ def display_earn_by_week(first_row, last_row, array_earnings):
 
     x = PrettyTable()
     x.field_names = [
-        'Week',
+        'Layer age (weeks)',
         'Egg sales',
         'Egg sales (%)',
         'Other earnings',
@@ -295,7 +295,7 @@ def display_delta_earn_cost_by_week(first_row, last_row, array_cost, array_earni
     # display the delta from earnings and cost
 
     # costs
-    print('\nProfitability table - \n ')
+
     array_feed_cost_week_hen = array_cost[0]
     array_additive_cost_week_hen = array_cost[1]
     array_pullet_cost = array_cost[2]
@@ -308,7 +308,7 @@ def display_delta_earn_cost_by_week(first_row, last_row, array_cost, array_earni
 
     x = PrettyTable()
     x.field_names = [
-        'Week',
+        'Layer age (weeks)',
         'Costs',
         'Earnings',
         'Delta',
@@ -362,7 +362,7 @@ def built_charts(first_row, last_row, array_cost, array_earnings, user_genetic):
     array_rnd_egg_sales_hen_week = array_earnings[0]
     array_rnd_other_earn_per_bird = array_earnings[1]
 
-    weeks_axis = np.arange(first_row, 1 + last_row, 1)
+    weeks_axis = np.arange(first_row, 1 + last_row, 1) # create the x axis
 
     # initialization of numpy array
     z1 = np.zeros(1, dtype=float)
@@ -407,7 +407,6 @@ def built_charts(first_row, last_row, array_cost, array_earnings, user_genetic):
         z7 = np.row_stack((z7, g))
 
         # Delta - Earnings - Cost
-
         h = np.average(array_rnd_other_cost_per_bird[i, :]) \
             + np.average(array_rnd_vet_cost_per_bird[i, :]) \
             + np.average(array_pullet_cost[i, :]) \
@@ -417,7 +416,6 @@ def built_charts(first_row, last_row, array_cost, array_earnings, user_genetic):
         z8 = np.row_stack((z8, h))
 
         # Delta - Earnings - Cost
-
         j = np.average(array_rnd_other_earn_per_bird[i, :]) \
             + np.average(array_rnd_egg_sales_hen_week[i, :])
 
@@ -439,7 +437,15 @@ def built_charts(first_row, last_row, array_cost, array_earnings, user_genetic):
 
     gross_margin = (total_earning - total_cost) / total_earning * 100
     max_gross_margin = np.amax(gross_margin)
-    print(vet)
+
+    max_gm = np.where(gross_margin == max_gross_margin)
+    week_of_max_gross_margin = (max_gm[0] + first_row)
+
+    breakeven_week = np.where(gross_margin > 0)
+    week_of_breakeven = (breakeven_week[0] + first_row)
+
+    #print(week_of_breakeven[0])
+
 
     all_cost = [pull, feed, addi, vet, other]
     all_earn = [egg_sales, other_earning]
@@ -448,7 +454,7 @@ def built_charts(first_row, last_row, array_cost, array_earnings, user_genetic):
 
     # built the charts
 
-    plt.style.use('ggplot')
+    plt.style.use('classic')
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 4))
     fig.suptitle('Cumulative Cost & Earnings',
                  fontsize =20,
@@ -472,11 +478,15 @@ def built_charts(first_row, last_row, array_cost, array_earnings, user_genetic):
     ax1.set_title('cost',
                   fontsize=setup_chart_cost['title_font_size'],
                   )
-    ax1.set_xlabel('Production week',
+    ax1.set_xlabel('Layer age (weeks)',
                    fontsize=setup_chart_cost['x_label_font_size'])
     ax1.set_ylabel('Value ($)',
                    fontsize=setup_chart_cost['x_label_font_size'])
     ax1.set_xlim(xmin=first_row)
+
+    ax1.grid(color=setup_chart_cost['color_grid'],
+             linewidth=setup_chart_cost['grid_width'],
+             )
 
 
     ax2.stackplot(weeks_axis, all_earn,
@@ -494,11 +504,15 @@ def built_charts(first_row, last_row, array_cost, array_earnings, user_genetic):
     ax2.set_title('Earnings',
                   fontsize=setup_chart_cost['title_font_size'],
                   )
-    ax2.set_xlabel('Production week',
+    ax2.set_xlabel('Layer age (weeks)',
                    fontsize=setup_chart_cost['x_label_font_size'])
     ax2.set_ylabel('Value ($)',
                    fontsize=setup_chart_cost['x_label_font_size'])
     ax2.set_xlim(xmin=first_row)
+
+    ax2.grid(color=setup_chart_cost['color_grid'],
+                    linewidth=setup_chart_cost['grid_width'],
+             )
 
     plt.figtext(.7, .005,
                 app_setup_parameters['app_title'],
@@ -538,11 +552,14 @@ def built_charts(first_row, last_row, array_cost, array_earnings, user_genetic):
                   )
     ax3.legend(loc='upper left',
                fontsize=setup_chart_cost['legend_font_size'] + 10)
-    ax3.set_xlabel('Production week',
+    ax3.set_xlabel('Layer age (weeks)',
                    fontsize=setup_chart_cost['x_label_font_size'] + 10)
     ax3.set_ylabel('Value ($)',
                    fontsize=setup_chart_cost['y_label_font_size'] + 12)
-    ax3.grid(color='#FFFFFF', linewidth=3)
+
+    ax3.grid(color=setup_chart_cost['color_grid'],
+             linewidth=setup_chart_cost['grid_width'],
+             )
     ax3.set_xlim(xmin=first_row)
     plt.figtext(.7, .005,
                 app_setup_parameters['app_title'],
@@ -558,12 +575,7 @@ def built_charts(first_row, last_row, array_cost, array_earnings, user_genetic):
 
     plt.show()
 
-
     # Gross margin plot
-    # max_gross_margin
-    #supper = np.ma.masked_where(gross_margin  > 0, gross_margin, copy=True )
-    #slower = np.ma.masked_where(gross_margin  <= 0, gross_margin, copy=True )
-
 
     plt.style.use('classic')
     fig, (ax4) = plt.subplots(1, figsize=(8, 4))
@@ -577,33 +589,66 @@ def built_charts(first_row, last_row, array_cost, array_earnings, user_genetic):
                   alpha=setup_chart_cost['color_alpha_level'],
                   )
         #
-    ax4.legend(loc='upper left',
-               fontsize=setup_chart_cost['legend_font_size'] + 10)
-    ax4.set_xlabel('Production week',
+    # ax4.legend(loc='upper left',
+    #            fontsize=setup_chart_cost['legend_font_size'] + 10)
+    ax4.set_xlabel('Layer age (weeks)',
                    fontsize=setup_chart_cost['x_label_font_size'] + 10)
     ax4.set_ylabel('Gross Margin (%)',
                    fontsize=setup_chart_cost['y_label_font_size'] + 12)
-    ax4.grid(color='#ccd2d6', linewidth=2)
+
+    ax4.grid(color=setup_chart_cost['color_grid'],
+             linewidth=setup_chart_cost['grid_width'],
+             )
 
     ax4.set_ylim(ymin=-20)
     ax4.set_ylim(ymax=max_gross_margin + 10)
     ax4.set_xlim(xmin=first_row)
-    ax4.axhline(max_gross_margin,
+
+    plt.hlines(max_gross_margin,
+                xmin = 0,
+                xmax = week_of_max_gross_margin,
                 linestyle='dashed',
                 label='Max GM',
                 color='#869493',
+                linewidth=1,
                 )
-    ax4.annotate('GM max.: ' + str(round(max_gross_margin,2)) + '%',
+
+    plt.vlines(week_of_max_gross_margin,
+                ymin=0,
+                ymax=max_gross_margin,
+                linestyle='dashed',
+                label='Max GM',
+                color='#869493',
+                linewidth = 1,
+                )
+    plt.vlines(week_of_breakeven[0],
+               ymin=-20,
+               ymax=0,
+               linestyle='dashed',
+               label='Max GM',
+               color='#869493',
+               linewidth=1,
+               )
+
+    ax4.annotate('GM max.: ' + str(round(max_gross_margin,2)) + '%' + ' at ' + str(week_of_max_gross_margin) + ' weeks',
                  xy=(40, max_gross_margin), xytext=(40, max_gross_margin+.5),
                  fontsize=12,
                  alpha = .5
                  )
+
+    ax4.annotate(f'Breakeven week\n({week_of_breakeven[0]} weeks of age)',
+                xy=(week_of_breakeven[0], 0), xycoords='data',
+                xytext=(0.86, 0.3), textcoords='axes fraction',
+                arrowprops=dict(facecolor='gray', shrink=0.05, width=.01, headwidth=4),
+                horizontalalignment='right', verticalalignment='top',
+                )
+
     plt.figtext(.7, .005,
                 app_setup_parameters['app_title'],
                 fontsize=9,
                 alpha = .8)
 
-    plt.figtext(0.12, .01,
+    plt.figtext(0.12, .005,
                 case_identification_setup['id_name']
                 + ' - ' + case_identification_setup['Country']
                 + ' - Layer breed: ' + user_genetic.capitalize(),

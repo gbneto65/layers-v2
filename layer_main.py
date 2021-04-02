@@ -178,14 +178,15 @@ if __name__ == "__main__":
     last_prod_week = df_info.get_last_production_week()
     hen_egg_color = df_info.get_egg_color()
 
-    print(f'\nTotal weeks of production: {total_prod_week}')
-    print(f'First weeks of production: {first_prod_week}')
-    print(f'Last weeks of production: {last_prod_week}\n')
-    print(f'The eggs color for this genetics is: {hen_egg_color}\n')
 
     # todo - display general info about genetics data
     # show intro on screen
     print(create_intro_table(genetic_options[genetic_user_selection]))
+
+    print(f'\nTotal weeks in production : {total_prod_week}')
+    print(f'First age week in production: {first_prod_week}')
+    print(f'Last age week in production: {last_prod_week}\n')
+    print(f'The eggs color for this genetics is: {hen_egg_color}\n')
 
     # print(selected_df.head)
 
@@ -234,7 +235,7 @@ if __name__ == "__main__":
             rnd_vet_cost_per_bird,
         )
 
-    array_rnd_vet_cost_per_bird = a.create_array_from_prod_not_df()
+    array_rnd_vet_cost_per_bird = a.create_array_from_prod_not_df_with_cumulative()
 
     # rnd_other_cost_per_bird
     a = CreateArraysFromParametersNotIncludedInDf \
@@ -245,7 +246,7 @@ if __name__ == "__main__":
             rnd_other_cost_per_bird,
         )
 
-    array_rnd_other_cost_per_bird = a.create_array_from_prod_not_df()
+    array_rnd_other_cost_per_bird = a.create_array_from_prod_not_df_with_cumulative()
 
     # earnings =========================================
 
@@ -258,7 +259,7 @@ if __name__ == "__main__":
             rnd_other_earn_per_bird,
         )
 
-    array_rnd_other_earn_per_bird = a.create_array_from_prod_not_df()
+    array_rnd_other_earn_per_bird = a.create_array_from_prod_not_df_with_cumulative()
     # print(array_rnd_other_earn_per_bird)
 
     # earnings from egg sales

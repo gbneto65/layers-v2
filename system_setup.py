@@ -40,14 +40,14 @@ cost_setup = {
                 "additive_cost_ton_distr": 'f',
 
 # monthly cost should be converted by layer cost / week
-                "vet_cost_month_mim": 200000,
-                "vet_cost_month_mp": 300000,
-                "vet_cost_month_max": 350000,
+                "vet_cost_month_mim": 20000,
+                "vet_cost_month_mp": 30000,
+                "vet_cost_month_max": 35000,
                 "vet_cost_month_distr": 'f',
 
-                "other_cost_month_mim": 3000,
-                "other_cost_month_mp": 3500,
-                "other_cost_month_max": 4000,
+                "other_cost_month_mim": 30000,
+                "other_cost_month_mp": 35000,
+                "other_cost_month_max": 40000,
                 "other_cost_month_distr": 'f',
 
              }
@@ -122,7 +122,7 @@ other_msn =  {
 
               }
 
-n_repetitions = 1000
+n_repetitions = 4
 
 
 table_user_input_cost_fields = [' ',
@@ -156,14 +156,18 @@ setup_chart_cost = {
                     'color_total_cost' : '#ee5455',
                     'color_total_earn' : '#73914f',
                     'color_gross_margin' : '#6f7575',
+
+                    'color_grid' : '#dcdcdc',
+                    'grid_width' : 1,
+
                     'color_alpha_level_total_cost' : .7,
                     'color_alpha_level_total_earn' : .5,
                     'color_alpha_level' : .4,
 
-                    'legend_font_size': 8,
-                    'title_font_size': 11,
-                    'x_label_font_size': 10,
-                    'y_label_font_size': 10,
+                    'legend_font_size': 10,
+                    'title_font_size': 20,
+                    'x_label_font_size': 15,
+                    'y_label_font_size': 15,
 
 
                     }
