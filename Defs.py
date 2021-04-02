@@ -406,7 +406,7 @@ def built_charts(first_row, last_row, array_cost, array_earnings, user_genetic):
         g = np.average(array_rnd_other_earn_per_bird[i, :])
         z7 = np.row_stack((z7, g))
 
-        # Delta - Earnings - Cost
+        # Delta - Earnings vs Cost
         h = np.average(array_rnd_other_cost_per_bird[i, :]) \
             + np.average(array_rnd_vet_cost_per_bird[i, :]) \
             + np.average(array_pullet_cost[i, :]) \
@@ -451,6 +451,29 @@ def built_charts(first_row, last_row, array_cost, array_earnings, user_genetic):
     all_earn = [egg_sales, other_earning]
 
     cost_and_earn = [total_cost, total_earning]
+
+    # perc_of_feed_on_total_cost = np.average(feed)[breakeven_week + first_row] / np.average(total_cost + first_row)[breakeven_week]
+    # print(perc_of_feed_on_total_cost)
+    # perc_of_addi_on_total_cost = addi / total_cost
+    # perc_of_pull_on_total_cost = pull / total_cost
+    # perc_of_vet_on_total_cost = vet / total_cost
+    # perc_of_other_on_total_cost = other / total_cost
+    #
+    # cost_rate_split_by_category = [perc_of_feed_on_total_cost,
+    #                                perc_of_addi_on_total_cost,
+    #                                perc_of_pull_on_total_cost,
+    #                                perc_of_vet_on_total_cost,
+    #                                perc_of_other_on_total_cost,
+    #                                ]
+    #
+    # perc_of_egg_on_total_earn = egg_sales / total_cost
+    # perc_of_other_on_total_earn = other_earning / total_cost
+    #
+    # earning_rate_split_by_category = [perc_of_egg_on_total_earn,
+    #                                   perc_of_other_on_total_earn,
+    #                                   ]
+    #
+    # print(perc_of_feed_on_total_cost)
 
     # built the charts
 
@@ -656,3 +679,7 @@ def built_charts(first_row, last_row, array_cost, array_earnings, user_genetic):
                 alpha=.8)
 
     plt.show()
+
+
+    # pie chart
+    # todo pie chart
