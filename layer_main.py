@@ -1,5 +1,5 @@
 # layer project V2
-# the objetive from this app is to evaluate the economical performance of the egg production under different conditions
+# the objective from this app is to evaluate the economical performance of the egg production under different conditions
 # it is possible also to evaluate which layer breed is more profitable.
 
 

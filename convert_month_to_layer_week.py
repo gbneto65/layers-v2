@@ -62,7 +62,7 @@ class InputConvertion:
             other_cost[3] = cost_setup["other_cost_month_distr"]
             return other_cost
 
-        elif self.parameter.lower() == 'wegg':
+        elif self.parameter.lower() == 'wegg': # WHITE EGG
 
             wegg = [None] * 4
             egg_kg = egg_market[ 'white_std_egg_weight_g'] / 1000 # convert egg weight to kg
@@ -79,7 +79,7 @@ class InputConvertion:
             wegg[3] = egg_market['white_std_egg_price_distr']
             return wegg
 
-        elif self.parameter.lower() == 'begg':
+        elif self.parameter.lower() == 'begg': # BROWN EGG
 
             begg = [None] * 4
             egg_kg = egg_market[ 'brown_std_egg_weight_g'] / 1000 # convert egg weight to kg

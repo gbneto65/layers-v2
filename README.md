@@ -4,13 +4,13 @@ project layers performance V2
 ==============================
 March 2021
 
-A new concept of layers economic performance evaluation.
+A new concept of  economic performance evaluation of egg production business.
 
-- consider performance parameters from different genetic breed.
-- take into consideration regional market data, such es local egg prices.
-- results are get after stockastic simulation
-  
-- easy reports
-- 
+- consider performance parameters from different genetic breed, as well the color of the egg.
+- take into consideration regional market data, such es local egg & feed prices.
+- results based on stochastic simulation
+- very simple & easy readable reports
+
+
 
 

@@ -422,7 +422,6 @@ def built_charts(first_row, last_row, array_cost, array_earnings, user_genetic):
         z9 = np.row_stack((z9, j))
 
 
-
     # delete first [0] row of the np.array
     feed = np.delete(z1, 0)
     addi = np.delete(z2, 0)
@@ -438,45 +437,24 @@ def built_charts(first_row, last_row, array_cost, array_earnings, user_genetic):
     gross_margin = (total_earning - total_cost) / total_earning * 100
     max_gross_margin = np.amax(gross_margin)
 
+
     max_gm = np.where(gross_margin == max_gross_margin)
     week_of_max_gross_margin = (max_gm[0] + first_row)
+    week_of_max_gross_margin = week_of_max_gross_margin.item()
 
-    breakeven_week = np.where(gross_margin > 0)
-    week_of_breakeven = (breakeven_week[0] + first_row)
+
+    week_breakeven = np.where(gross_margin > 0)
+    week_of_breakeven = (week_breakeven[0] + first_row)
+
 
     #print(week_of_breakeven[0])
-
 
     all_cost = [pull, feed, addi, vet, other]
     all_earn = [egg_sales, other_earning]
 
     cost_and_earn = [total_cost, total_earning]
 
-    # perc_of_feed_on_total_cost = np.average(feed)[breakeven_week + first_row] / np.average(total_cost + first_row)[breakeven_week]
-    # print(perc_of_feed_on_total_cost)
-    # perc_of_addi_on_total_cost = addi / total_cost
-    # perc_of_pull_on_total_cost = pull / total_cost
-    # perc_of_vet_on_total_cost = vet / total_cost
-    # perc_of_other_on_total_cost = other / total_cost
-    #
-    # cost_rate_split_by_category = [perc_of_feed_on_total_cost,
-    #                                perc_of_addi_on_total_cost,
-    #                                perc_of_pull_on_total_cost,
-    #                                perc_of_vet_on_total_cost,
-    #                                perc_of_other_on_total_cost,
-    #                                ]
-    #
-    # perc_of_egg_on_total_earn = egg_sales / total_cost
-    # perc_of_other_on_total_earn = other_earning / total_cost
-    #
-    # earning_rate_split_by_category = [perc_of_egg_on_total_earn,
-    #                                   perc_of_other_on_total_earn,
-    #                                   ]
-    #
-    # print(perc_of_feed_on_total_cost)
-
-    # built the charts
-
+    # plot cost & earning
     plt.style.use('classic')
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 4))
     fig.suptitle('Cumulative Cost & Earnings',
@@ -510,7 +488,6 @@ def built_charts(first_row, last_row, array_cost, array_earnings, user_genetic):
     ax1.grid(color=setup_chart_cost['color_grid'],
              linewidth=setup_chart_cost['grid_width'],
              )
-
 
     ax2.stackplot(weeks_axis, all_earn,
                   labels=['Egg Sales', 'Other Sales'],
@@ -553,7 +530,7 @@ def built_charts(first_row, last_row, array_cost, array_earnings, user_genetic):
 
 
 
-
+    # plot cost & earnings
     plt.style.use('classic')
     # plt.style.use('bmh')
     fig, (ax3) = plt.subplots(1, figsize=(8, 4))
@@ -599,7 +576,6 @@ def built_charts(first_row, last_row, array_cost, array_earnings, user_genetic):
     plt.show()
 
     # Gross margin plot
-
     plt.style.use('classic')
     fig, (ax4) = plt.subplots(1, figsize=(8, 4))
     fig.suptitle('Egg Production Gross Margin (GM)',
@@ -611,9 +587,7 @@ def built_charts(first_row, last_row, array_cost, array_earnings, user_genetic):
                   colors=[setup_chart_cost['color_gross_margin']],
                   alpha=setup_chart_cost['color_alpha_level'],
                   )
-        #
-    # ax4.legend(loc='upper left',
-    #            fontsize=setup_chart_cost['legend_font_size'] + 10)
+
     ax4.set_xlabel('Layer age (weeks)',
                    fontsize=setup_chart_cost['x_label_font_size'] + 10)
     ax4.set_ylabel('Gross Margin (%)',
@@ -680,6 +654,77 @@ def built_charts(first_row, last_row, array_cost, array_earnings, user_genetic):
 
     plt.show()
 
-
     # pie chart
-    # todo pie chart
+
+
+    feed_c = np.asarray(feed[max_gm[0]])
+
+    addi_c = np.asarray(addi[max_gm[0]])
+
+    vet_c = np.asarray(vet[max_gm[0]])
+
+    pull_c = np.asarray(pull[max_gm[0]])
+
+    other_c = np.asarray(other[max_gm[0]])
+
+    cost_max_gross_margin = [feed_c.item(),
+                             addi_c.item(),
+                             pull_c.item(),
+                             vet_c.item(),
+                             other_c.item(),
+
+                             ]
+
+
+    plt.style.use('ggplot')
+    fig, (ax1) = plt.subplots(1, figsize=(8, 4))
+    fig.suptitle(f'Classification of Production Cost at {str(week_of_max_gross_margin)} weeks of Age',
+                 fontsize=setup_chart_cost['title_font_size'],
+               )
+    explode = (0.02, 0.02, 0.02, 0.02, 0.02)
+    pie_colors =[
+            setup_chart_cost['color_feed_cost'],
+            setup_chart_cost['color_additive_cost'],
+            setup_chart_cost['color_pullet_cost'],
+            setup_chart_cost['color_vet_cost'],
+            setup_chart_cost['color_other_cost'],
+             ]
+    labels = ['Feed', 'additive', 'pullet', 'Health', 'other']
+    ax1.pie(
+            cost_max_gross_margin,
+            #labels=['Feed', 'additive', 'pullet', 'Health', 'other'],
+            #autopct='%2.2f%%',
+            explode=explode,
+            shadow=False,
+            colors = pie_colors,
+            autopct='%1.1f%%',
+            startangle= 90,
+            pctdistance=0.9,
+            )
+
+    # draw circle
+    centre_circle = plt.Circle((0, 0), 0.60, fc='white')
+    fig = plt.gcf()
+    fig.gca().add_artist(centre_circle)
+
+    # Equal aspect ratio ensures that pie is drawn as a circle
+    ax1.axis('equal')
+    #plt.tight_layout()
+    plt.figtext(.7, .005,
+                app_setup_parameters['app_title'],
+                fontsize=9,
+                alpha=.8,
+                )
+
+    plt.figtext(0.12, .01,
+                case_identification_setup['id_name']
+                + ' - ' + case_identification_setup['Country']
+                + ' - Layer breed: ' + user_genetic.capitalize(),
+                fontsize=8,
+                alpha=.8,
+                )
+
+    ax1.legend(loc='upper left', labels=labels, fontsize=20)
+    plt.show()
+    return
+
