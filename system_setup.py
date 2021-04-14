@@ -84,12 +84,9 @@ system_setup = {
 adj_to_performance_data = {
 # the values should be in percentual (ex: 0.01 = 1%, -.1 = -10%)
 
-                        'adj_cum_feed_intake_by_hen' : 0,
+                        'adj_cum_feed_intake_by_hen' : 1, # 1 for no adjust - 1.1 for 10% more feed consumption
                         # todo not implemented adjust below
-                        # 'adj_cum_egg_by_hen' : 0,
-                        # 'adj_cum_mort' : 0,
-                        # 'adj_egg_weight' : 0,
-                        # 'adj_egg_prod' : 0,
+                         'adj_cum_egg_mass_by_hen' : 1, # 1 for no adjust - .9  for 10% less egg mass / hen / week
 
                           }
 app_setup_parameters = {
