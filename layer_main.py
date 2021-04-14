@@ -1,10 +1,14 @@
-# layer project V2
+# layer project V2.1 - New Branch
+# the main objetive of this new brach is:
+# add adjustments for productivity levels - general and weekly
+
+
 # the objective from this app is to evaluate the economical performance of the egg production under different conditions
 # it is possible also to evaluate which layer breed is more profitable.
 
 
 # main module
-# todo - change the field "egg_mass_kg" to "cum_egg_mass_kg"
+#
 
 
 import pandas as pd
@@ -202,7 +206,7 @@ if __name__ == "__main__":
             'cum_feed_hen',
             rnd_feed_cost_gr_of_feed,
             )
-    array_feed_cost_week_hen = a.create_array_from_all_prod_weeks()
+    array_feed_cost_week_hen = a.create_array_from_cum_feed_hen_weeks()
 
     # cum_additive_hen_week
     a = CreateArraysFromParameters \
@@ -273,7 +277,7 @@ if __name__ == "__main__":
                 'egg_mass_hen',
                 rnd_white_egg_price_per_kg,
             )
-        array_rnd_egg_sales_hen_week = a.create_array_from_all_prod_weeks()
+        array_rnd_egg_sales_hen_week = a.create_array_from_egg_mass_hen_weeks()
 
     elif hen_egg_color.lower() == 'brown':
 

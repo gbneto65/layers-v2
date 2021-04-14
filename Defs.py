@@ -164,7 +164,6 @@ def display_text_before_table(text, case_country, user_genetic):
     print(f'\n{text}\n Country: {case_country} - Layer breed: {user_genetic.capitalize()}')
 
 
-
 def display_cost_by_week(first_row, last_row, array_cost):
     # array_cost = [
     #     array_feed_cost_week_hen,

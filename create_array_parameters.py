@@ -1,7 +1,7 @@
 # create np arrays from random parameters
 # generate a numpy array with rnd values with n_repetitions (define by user) and n production weeks (usually round 100)
 
-from system_setup import n_repetitions
+from system_setup import n_repetitions, adj_to_performance_data
 import numpy as np
 
 
@@ -27,6 +27,31 @@ class CreateArraysFromParameters:
         c = np.delete(c, 0, 0) # delete the first row (zeros only)
 
         return c
+
+    def create_array_from_cum_feed_hen_weeks(self):
+
+        c = np.zeros([n_repetitions], dtype=float)
+
+        for i in range(1 + self.last_row - self.first_row):
+            b = self.df.iloc[i][self.df_col_name] * self.rnd_parameter_name * adj_to_performance_data['adj_cum_feed_intake_by_hen']
+            c = np.row_stack((c, b))
+
+        c = np.delete(c, 0, 0) # delete the first row (zeros only)
+
+        return c
+
+    def create_array_from_egg_mass_hen_weeks(self):
+
+        c = np.zeros([n_repetitions], dtype=float)
+
+        for i in range(1 + self.last_row - self.first_row):
+            b = self.df.iloc[i][self.df_col_name] * self.rnd_parameter_name * adj_to_performance_data['adj_cum_egg_mass_by_hen']
+            c = np.row_stack((c, b))
+
+        c = np.delete(c, 0, 0) # delete the first row (zeros only)
+
+        return c
+
 
 class CreateArraysFromParametersNotIncludedInDf:
     def __init__(self,df, first_row, last_row, rnd_parameter_name):
